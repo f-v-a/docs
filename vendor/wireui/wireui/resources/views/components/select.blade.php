@@ -98,7 +98,7 @@
             </x-slot>
         </x-dynamic-component>
     </div>
-{{-- Вернуть absolute --}}
+{{-- Вернуть absolute--}}
     <div class="
             w-full mt-1 rounded-lg overflow-hidden shadow-md bg-white z-10 border border-secondary-200
             dark:bg-secondary-800 dark:border-secondary-600
