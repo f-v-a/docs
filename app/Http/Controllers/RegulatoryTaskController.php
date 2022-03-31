@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class RegulatoryTaskController extends Controller
 {
-    public function show() {
+    public function index() {
         
         return view('regulatory-task.store');
     }

@@ -14,7 +14,6 @@ use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\RegulatoryTaskController;
 use App\Http\Controllers\WrittenOffEquipmentController;
-use Illuminate\Support\Facades\App;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,49 +27,44 @@ use Illuminate\Support\Facades\App;
 */
 
 Route::group(['middleware' => 'auth'], function() {
-    Route::view('regulatory.show', [RegulatoryTaskController::class, 'show']);
+    // Route::view('regulatory.show', 'regulatory-task.store');
 
     Route::group(['prefix' => 'inbox'] ,function () {
-        Route::resource('incidents', IncidentController::class)->except('show');
+
+        Route::view('incidents', 'incidents.incidents')->name('incidents.index');
     });
     
     Route::group(['prefix' => 'completed'] ,function () {
         
-        Route::resource('completed-incidents', CompletedIncidentController::class)->only('index');
+        Route::view('completed-incidents', 'incidents.incidents')->name('completed-incidents.index');
     });
     
-    Route::group(['prefix' => 'control'] ,function () {
-        Route::group(['prefix' => 'equipments'] ,function () {
+    Route::group(['prefix' => 'control/equipments'] ,function () {
+
+            Route::view('active', 'equipments.equipments')->name('active.index');
     
-            Route::resource('active', EquipmentController::class);
+            Route::view('decommissioned', 'equipments.equipments')->name('decommissioned.index');
     
-            Route::resource('decommissioned', DecommissionedEquipmentController::class);
-    
-            Route::resource('written-off', WrittenOffEquipmentController::class);
-        });
+            Route::view('written-off', 'equipments.equipments')->name('written-off.index');
     });
     
     Route::group(['prefix' => 'info'] ,function () {
     
-        Route::resource('employees', EmployeeController::class)->except('show');
+        Route::view('employees', 'staff.employees')->name('employees.index');
         
-        Route::resource('contractors', ContractorController::class)->except('show');
+        Route::view('contractors', 'staff.company.contractors')->name('contractors.index');
         
-        Route::resource('performers', PerformerController::class);
+        Route::view('performers', 'staff.company.performers')->name('performers.index');
     });
     
     
     Route::group(['prefix' => 'directory'] ,function () {
-        Route::resource('types', EquipmentTypeController::class)->except('show');
+        Route::view('types', 'directories.equipment.types')->name('types.index');
     
-        Route::resource('models', EquipmentModelController::class)->except('show');
-        
-        Route::resource('manufacturers', ManufacturerController::class)->except('show');
+        Route::view('models', 'directories.equipment.models')->name('models.index');
     
-        Route::resource('positions', PositionController::class)->except('show');
+        Route::view('positions', 'directories.positions')->name('positions.index');
     
         Route::view('users', 'directories.users')->name('users');
     });
 });
-
-Route::view('/powergrid', 'powergrid-demo');
