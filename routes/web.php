@@ -1,7 +1,20 @@
 <?php
 
-use App\Http\Livewire\{Documentation, Home};
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CompletedIncidentController;
+use App\Http\Controllers\ContractorController;
+use App\Http\Controllers\PerformerController;
+use App\Http\Controllers\DecommissionedEquipmentController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\EquipmentModelController;
+use App\Http\Controllers\EquipmentController;
+use App\Http\Controllers\EquipmentTypeController;
+use App\Http\Controllers\IncidentController;
+use App\Http\Controllers\ManufacturerController;
+use App\Http\Controllers\PositionController;
+use App\Http\Controllers\RegulatoryTaskController;
+use App\Http\Controllers\WrittenOffEquipmentController;
+use Illuminate\Support\Facades\App;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,34 +27,50 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', Home::class)->name('home');
+Route::group(['middleware' => 'auth'], function() {
+    Route::view('regulatory.show', [RegulatoryTaskController::class, 'show']);
 
-Route::get('docs',                 Documentation\GetStarted::class)->name('docs');
-Route::get('docs/get-started',     Documentation\GetStarted::class)->name('docs.get-started');
-Route::get('docs/troubleshooting', Documentation\Troubleshooting::class)->name('docs.troubleshooting');
-Route::get('docs/heroicons',       Documentation\Heroicons::class)->name('docs.heroicons');
-Route::get('docs/notifications',   Documentation\Notifications::class)->name('docs.notifications');
-Route::get('docs/hooks',           Documentation\Hooks::class)->name('docs.hooks');
-Route::get('docs/inputs',          Documentation\Inputs::class)->name('docs.inputs');
-Route::get('docs/errors',          Documentation\Errors::class)->name('docs.errors');
-Route::get('docs/maskable-inputs', Documentation\MaskableInput::class)->name('docs.maskable-inputs');
-Route::get('docs/phone-input',     Documentation\PhoneInput::class)->name('docs.phone-input');
-Route::get('docs/buttons',         Documentation\Buttons::class)->name('docs.buttons');
-Route::get('docs/currency-input',  Documentation\CurrencyInput::class)->name('docs.currency-input');
-Route::get('docs/dropdown',        Documentation\Dropdown::class)->name('docs.dropdown');
-Route::get('docs/datetime-picker', Documentation\DatetimePicker::class)->name('docs.datetime-picker');
-Route::get('docs/time-picker',     Documentation\TimePicker::class)->name('docs.time-picker');
-Route::get('docs/cards',           Documentation\Cards::class)->name('docs.cards');
-Route::get('docs/native-select',   Documentation\NativeSelect::class)->name('docs.native-select');
-Route::get('docs/select',          Documentation\Select::class)->name('docs.select');
-Route::get('docs/toggle',          Documentation\Toggle::class)->name('docs.toggle');
-Route::get('docs/checkbox',        Documentation\Checkbox::class)->name('docs.checkbox');
-Route::get('docs/radio',           Documentation\Radio::class)->name('docs.radio');
-Route::get('docs/modal',           Documentation\Modal::class)->name('docs.modal');
-Route::get('docs/dialogs',         Documentation\Dialogs::class)->name('docs.dialogs');
-Route::get('docs/textarea',        Documentation\Textarea::class)->name('docs.textarea');
-Route::get('docs/changelog',       Documentation\Changelog::class)->name('docs.changelog');
-Route::get('docs/colors',          Documentation\Colors::class)->name('docs.colors');
-Route::get('docs/customization',   Documentation\Customization::class)->name('docs.customization');
-Route::get('docs/contributing',    Documentation\Contributing::class)->name('docs.contributing');
-Route::get('docs/livewire-usage',  Documentation\LivewireUsage::class)->name('docs.livewire-usage');
+    Route::group(['prefix' => 'inbox'] ,function () {
+        Route::resource('incidents', IncidentController::class)->except('show');
+    });
+    
+    Route::group(['prefix' => 'completed'] ,function () {
+        
+        Route::resource('completed-incidents', CompletedIncidentController::class)->only('index');
+    });
+    
+    Route::group(['prefix' => 'control'] ,function () {
+        Route::group(['prefix' => 'equipments'] ,function () {
+    
+            Route::resource('active', EquipmentController::class);
+    
+            Route::resource('decommissioned', DecommissionedEquipmentController::class);
+    
+            Route::resource('written-off', WrittenOffEquipmentController::class);
+        });
+    });
+    
+    Route::group(['prefix' => 'info'] ,function () {
+    
+        Route::resource('employees', EmployeeController::class)->except('show');
+        
+        Route::resource('contractors', ContractorController::class)->except('show');
+        
+        Route::resource('performers', PerformerController::class);
+    });
+    
+    
+    Route::group(['prefix' => 'directory'] ,function () {
+        Route::resource('types', EquipmentTypeController::class)->except('show');
+    
+        Route::resource('models', EquipmentModelController::class)->except('show');
+        
+        Route::resource('manufacturers', ManufacturerController::class)->except('show');
+    
+        Route::resource('positions', PositionController::class)->except('show');
+    
+        Route::view('users', 'directories.users')->name('users');
+    });
+});
+
+Route::view('/powergrid', 'powergrid-demo');

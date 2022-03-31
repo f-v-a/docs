@@ -16,10 +16,17 @@ class User extends Authenticatable
      *
      * @var string[]
      */
+
+    public $timestamps = false;
+    
     protected $fillable = [
-        'name',
-        'email',
+        'login',
         'password',
+        'name', 
+        'surname', 
+        'patronymic', 
+        'position_id',
+        'role_id'
     ];
 
     /**
@@ -30,6 +37,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'position_id',
+        'role_id',
     ];
 
     /**
@@ -37,7 +46,34 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    
+    public function position() {
+
+        return $this->belongsTo(Position::class, 'position_id');
+    }
+
+    public function role() {
+
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    public function getIsUserAttribute() {
+
+        return $this->role_id == 1;
+    }
+
+    public function getIsAdminAttribute() {
+
+        return $this->role_id == 2;
+    }
+
+    public function getIsPerformerAttribute() {
+
+        return $this->role_id == 3;
+    }
+
+    public function getIsChiefAttribute() {
+
+        return $this->role_id == 4;
+    }
 }
