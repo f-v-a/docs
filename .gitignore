@@ -3,7 +3,8 @@
 /public/storage
 # /public/mix-manifest.json
 /storage/*.key
-/vendor
+/vendor/*
+!/vendor/wireui/wireui/resources/views/components/select.blade.php
 .env.backup
 .phpunit.result.cache
 .php-cs-fixer.cache
