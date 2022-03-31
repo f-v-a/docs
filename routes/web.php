@@ -1,19 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CompletedIncidentController;
-use App\Http\Controllers\ContractorController;
-use App\Http\Controllers\PerformerController;
-use App\Http\Controllers\DecommissionedEquipmentController;
-use App\Http\Controllers\EmployeeController;
-use App\Http\Controllers\EquipmentModelController;
-use App\Http\Controllers\EquipmentController;
-use App\Http\Controllers\EquipmentTypeController;
-use App\Http\Controllers\IncidentController;
-use App\Http\Controllers\ManufacturerController;
-use App\Http\Controllers\PositionController;
-use App\Http\Controllers\RegulatoryTaskController;
-use App\Http\Controllers\WrittenOffEquipmentController;
+
 
 /*
 |--------------------------------------------------------------------------
