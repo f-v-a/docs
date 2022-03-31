@@ -87,7 +87,7 @@ class Store extends ModalComponent
                 ]);
             } 
         
-        if($this->influence == 'Прием приостановлен') {
+        if($this->influence == 'Критичное') {
             $updateEquipment = Equipment::findOrFail($this->equipment_id);
             $updateEquipment->update([
                 'status' => 'Выведено из эксплуатации'
