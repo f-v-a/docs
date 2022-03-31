@@ -132,9 +132,10 @@ final class IncidentsTable extends PowerGridComponent
     {
         return PowerGrid::eloquent()
             ->addColumn('id')
-            ->addColumn('influence', function(Incident $model) {
-                return $model->influence == 'Малое влияние на прием' ? '🟢' : ($model->influence == 'Среднее влияние на прием' ? '🟡' : '🔴');
-            })
+            // ->addColumn('influence', function(Incident $model) {
+            //     return $model->influence == 'Малое влияние на прием' ? '🟢' : ($model->influence == 'Среднее влияние на прием' ? '🟡' : '🔴');
+            // })
+            ->addColumn('influence')
             ->addColumn('equipment_id')
             ->addColumn('executor_id')
             ->addColumn('condition')
@@ -427,6 +428,10 @@ final class IncidentsTable extends PowerGridComponent
                 Rule::button('conclusion')
                     ->when(fn($incident) => $incident->condition == 'Смена исполнителя')
                     ->hide(),   
+
+                Rule::button('conclusion')
+                    ->when(fn($incident) => $incident->condition == 'На проверке')
+                    ->hide(),  
                 // Rule::button('selectPerformer')
                 //     ->when(fn($incident) => $incident->condition == 'Новый')
                 //     ->hide(),   
@@ -482,30 +487,45 @@ final class IncidentsTable extends PowerGridComponent
     public function confirm(array $data): bool
     {
         try {
-            $updated = Incident::findOrFail($data['id'])
-            ->where('condition', 'На согласовании')
-            ->update([
-                'condition' => 'Новый',
-            ]);
+            if(auth()->user()->is_admin || auth()->user()->is_chief) {
+                $updatedAgree = Incident::find($data['id'])
+                ->where('condition', 'На согласовании')
+                ->update([
+                    'condition' => 'Новый',
+                ]);
+                if($updatedAgree) {
+                    IncidentHistory::create([
+                        'condition' => 'Новый',
+                        'user_id' => auth()->user()->id,
+                        'incident_id' => $data['id']
+                    ]);
+                } 
+            }
 
-            $create = IncidentHistory::create([
-                'condition' => 'Новый',
-                'user_id' => auth()->user()->id,
-                'incident_id' => $data['id']
-            ]);
-
-            $updated = Incident::findOrFail($data['id'])
+            $updatedReview = Incident::find($data['id'])
             ->where('condition', 'На проверке')
             ->update([
                 'condition' => 'Завершен',
-                'updated_at' => Carbon::now()
             ]);
 
+            if($updatedReview) {
+                IncidentHistory::create([
+                    'condition' => 'Завершен',
+                    'user_id' => auth()->user()->id,
+                    'incident_id' => $data['id']
+                ]);
+            }
+
             if(auth()->user()->is_performer) {
-                $updated = Incident::findOrFail($data['id'])
+                $updated = Incident::find($data['id'])
                 ->update([
+                    'condition' => 'Принят'
+                ]);
+
+                IncidentHistory::create([
                     'condition' => 'Принят',
-                    'updated_at' => Carbon::now()
+                    'user_id' => auth()->user()->id,
+                    'incident_id' => $data['id']
                 ]);
             }
 
@@ -513,43 +533,47 @@ final class IncidentsTable extends PowerGridComponent
             $updated = false;
         }
 
-        if ($updated) {
-            $this->fillData();
-        }
+            if ($updatedAgree || $updatedReview) {
+                $this->fillData();
+            }
         
-        return $updated;
+        return $updatedAgree || $updatedReview;
     }
 
     public function reject(array $data): bool
     {
-            $updated = Incident::findOrFail($data['id'])
+            $updated = Incident::find($data['id'])
                 ->where('condition', 'Отклонен')
                 ->update([
                     'condition' => 'Завершен',
-                    'updated_at' => Carbon::now(),
                     'date_completion' => Carbon::now(),
             ]);
 
-            // $updated = Incident::findOrFail($data['id'])
+            // $updated = Incident::find($data['id'])
             //     ->where('condition', 'На согласовании')
             //     ->update([
             //         'condition' => 'Отклонен',
             //         'updated_at' => Carbon::now(),
             // ]);
 
-
-            $updated = Incident::findOrFail($data['id'])
+            $updatedReview = Incident::find($data['id'])
                 ->where('condition', 'На проверке')
                 ->update([
                     'condition' => 'На доработке',
-                    'updated_at' => Carbon::now(),
             ]);
+                if($updatedReview) {
+                    IncidentHistory::create([
+                        'condition' => 'На доработке',
+                        'user_id' => auth()->user()->id,
+                        'incident_id' => $data['id']
+                    ]);
+                }
 
-            $updated = Incident::findOrFail($data['id'])
+
+            $updated = Incident::find($data['id'])
                 ->where('condition', 'Отклонен исполнителем')
                 ->update([
                     'condition' => 'Завершен',
-                    'updated_at' => Carbon::now(),
             ]);
 
         if ($updated) {
@@ -569,7 +593,7 @@ final class IncidentsTable extends PowerGridComponent
     // public function update(array $data ): bool
     // {
     //    try {
-    //        $updated = Incident::query()->findOrFail($data['id'])
+    //        $updated = Incident::query()->find($data['id'])
     //             ->update([
     //                 $data['field'] => $data['value'],
     //             ]);

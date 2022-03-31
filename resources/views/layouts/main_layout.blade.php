@@ -183,11 +183,11 @@
                 <div class="text-gray-200 border-gray-800 rounded flex items-center justify-between p-2">
                     <div class="flex items-center space-x-2">
                         <!-- AVATAR IMAGE BY FIRST LETTER OF NAME -->
-                        <img src="https://ui-avatars.com/api/?name=Habib+Mhamadi&size=128&background=ff4433&color=fff" class="w-7 w-7 rounded-full" alt="Profile">
-                        <h1>    
+                        {{-- <img src="https://ui-avatars.com/api/?name=Habib+Mhamadi&size=128&background=ff4433&color=fff" class="w-7 w-7 rounded-full" alt="Profile"> --}}
+                        <span class = "text-lg">    
                             {{ auth()->user()->name ?? '' }} 
                             {{ auth()->user()->patronymic ?? '' }} 
-                        </h1>
+                        </span>
                     </div>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST">
                         @csrf
@@ -209,7 +209,7 @@
                     <svg class="w-6 h-6 fill-current" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
             </div>
-            <section class="max-w-9xl mx-auto py-4 px-5">
+            <section class="max-w-8xl mx-auto py-4 px-5">
                 <div class="flex flex-col justify-between md:flex-row items-center border-b border-gray-300">
                     <h1 class="text-2xl font-semibold">@yield('page-title')</h1>
                     <nav class="flex pt-3 pb-2" aria-label="Breadcrumb">
@@ -235,11 +235,7 @@
         </main>
     </div>
     @endauth
-{{-- <script src="{{ asset('dist/main.min.js') }}"></script> --}}
 
-
-
-<script src="https://unpkg.com/flowbite@1.4.1/dist/flowbite.js"></script>
 @livewireScripts
 @powerGridScripts
 @livewire('livewire-ui-modal')

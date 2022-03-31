@@ -11,45 +11,6 @@
     <title>Авторизация</title>
     <link rel="stylesheet" href="{{ asset('dist/app.css') }}">
 </head>
-{{-- <style>
-    .body-bg {
-        background: -webkit-linear-gradient(90deg,#0938a3,#90a8ce,#c0cfde); /* Chrome 10-25, Safari 5.1-6 */ background: linear-gradient(90deg,#0938a3,#90a8ce,#c0cfde); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
-
-
-</style> --}}
-
-{{-- <body class="body-bg min-h-screen pt-12 md:pt-20 pb-6 px-2 md:px-0" style="font-family:'Lato',sans-serif;">
-    <header class="max-w-lg mx-auto">
-        <a href="#">
-            <h1 class="text-4xl font-bold text-white text-center">MedExpert</h1>
-        </a>
-    </header>
-
-    <main class="bg-white max-w-lg mx-auto p-8 md:p-12 my-10 rounded-lg shadow-2xl">
-        <section class="mt-10">
-            <form class="flex flex-col" method="POST" action="{{ route('login') }}">
-@csrf
-<div class="mb-6 pt-3 rounded bg-gray-200">
-    <label class="block text-gray-700 text-lg font-bold mb-2 ml-3" for="login">Логин</label>
-    <input type="text" id="login" placeholder="Введите логин" name="login"
-        class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3">
-</div>
-<div class="mb-6 pt-3 rounded bg-gray-200">
-    <label class="block text-gray-700 text-lg font-bold mb-2 ml-3" for="password">Пароль</label>
-    <input type="password" id="password" placeholder="Введите пароль" name="password"
-        class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3">
-</div>
-<div class="flex justify-end">
-    <a href="#" class="text-sm text-purple-600 hover:text-purple-700 hover:underline mb-6">Забыли пароль?</a>
-</div>
-<button
-    class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200"
-    type="submit">Войти</button>
-</form>
-</section>
-</main>
-</body> --}}
 
 <body class="text-gray-800 antialiased">
     <main>

@@ -55,7 +55,7 @@
 </x-card> --}}
 <x-card blur title="История инцидента">
 <div class="w-full px-2 py-6">
-  @foreach ($histories as $history) 
+  @forelse ($histories as $history) 
     <div class="flex">
       <div class="flex flex-col items-center mr-4">
         <div>
@@ -82,12 +82,21 @@
               Новый инцидент
             </p>
           @endif
+          @if ($history->condition == 'Новый')
+            <p class="text-gray-700">
+              Передан в работу мастеру
+            </p>
+          @endif
+          @if ($history->condition == 'Отклонен исполнителем' || $history->condition == 'На проверке')
+          <p class="text-gray-700">
+            {{ $history->conclusion }}
+          </p>
+        @endif
           Статус: {{ $history->condition }}
         </p>
       </div>
     </div>
-  @endforeach
-  @if ($history->condition == 'Завершен')
+    @if ($history->condition == 'Завершен')
     <div class="flex">
       <div class="flex flex-col items-center mr-4">
         <div>
@@ -107,5 +116,11 @@
       </div>
     </div>
   @endif
+
+  @empty
+
+  <p class="mb-2 text-xl font-bold text-gray-600"> История пуста </p>
+
+  @endforelse
   </div>
 </x-card>

@@ -68,7 +68,6 @@ class Update extends ModalComponent
                     'user_id' => auth()->user()->id,
                     'condition' => 'На согласовании',
                     'incident_id' => Incident::find($this->selectedId)->value('id'),
-                    // 'updated_at' => Carbon::now(),
                 ]);
                 
                 $this->forceClose()->closeModal();
@@ -93,6 +92,14 @@ class Update extends ModalComponent
                     'condition' => 'На проверке',
                     'updated_at' => Carbon::now(),
                 ]);
+
+                IncidentHistory::create([
+                    'user_id' => auth()->user()->id,
+                    'condition' => 'На проверке',
+                    'incident_id' => Incident::find($this->selectedId)->value('id'),
+                    'conclusion' => $this->conclusion,
+                ]);
+                
                 $this->forceClose()->closeModal();
                 $this->resetInput();
                 $this->notification()->success(
@@ -113,6 +120,14 @@ class Update extends ModalComponent
                     'condition' => 'Отклонен исполнителем',
                     'updated_at' => Carbon::now(),
                 ]);
+
+                IncidentHistory::create([
+                    'user_id' => auth()->user()->id,
+                    'condition' => 'Отклонен исполнителем',
+                    'conclusion' => $this->conclusion,
+                    'incident_id' => $updateIncident->id,
+                ]);
+
                 $this->forceClose()->closeModal();
                 $this->resetInput();
                 $this->notification()->success(

@@ -1,4 +1,4 @@
-@if ((auth()->user()->is_admin || auth()->user()->is_chief) && ($this->condition == 'Новый' || $this->condition == 'Выбор исполнителя' || $this->condition == 'Смена исполнителя'))
+@if ((auth()->user()->is_admin || auth()->user()->is_chief) && ($this->condition != 'На согласовании'))
 <x-card title="Редактировать данные">
     <div class="grid grid-cols-5 gap-3">
         <div class="field col-span-5">
@@ -7,7 +7,7 @@
         <div class="field col-span-5">
             <x-select
             label="Влияние на прием"
-            :options="['Малое влияние на прием', 'Среднее влияние на прием', 'Прием приостановлен']"
+            :options="['Незначительное', 'Значительное', 'Критичное']"
             wire:model.defer="influence"
             disabled />
         </div>

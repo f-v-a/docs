@@ -15,8 +15,11 @@ class Store extends ModalComponent
 
     public function render()
     {
-        $this->users = User::where('role_id', 1)->orWhere('role_id', 2)->orWhere('role_id', 4)->get();
-
+        $this->users = User::where('role_id', 1)
+        ->orWhere('role_id', 2)
+        ->orWhere('role_id', 4)
+        // ->where('id', '!=', Employee::pluck('id'))
+        ->get();
         return view('livewire.employees.store');
     }
 
