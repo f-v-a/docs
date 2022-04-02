@@ -18,7 +18,8 @@ class Store extends ModalComponent
     {
         $this->contractors = Contractor::get();
 
-        $this->users = User::where('role_id', 3)->get();
+        $this->users = User::whereNotIn('id', Executor::pluck('user_id'))
+        ->where('role_id', 3)->get();
 
         return view('livewire.performers.store');
     }
@@ -32,7 +33,7 @@ class Store extends ModalComponent
 
     public function store() {
         $this->validate([
-            'contractor_id' => 'required',
+            'contractor_id' => 'nullable',
             'user_id' => 'required',
             'email' => 'email'
         ]);

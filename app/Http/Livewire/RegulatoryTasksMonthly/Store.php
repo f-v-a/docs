@@ -49,16 +49,19 @@ class Store extends ModalComponent
         $this->validate([
             'description' => 'required',
             'executor_id' => 'required',
-            'employee_id' => 'required',
             'equipment_id' => 'required',
             'start_date' => 'required',
         ]);
 
         if($this->indefinitely == false) {
+            $this->validate([
+                'end_date' => 'required|after:start_date',
+            ]);
+
             $newRegular = RegulatoryTask::create([
                 'description' => $this->description,
                 'executor_id' => $this->executor_id,
-                'employee_id' => $this->employee_id,
+                'employee_id' => auth()->user()->id,
                 'equipment_id' => $this->equipment_id,
                 'status' => true,
                 'start_date' => $this->start_date,
@@ -78,10 +81,14 @@ class Store extends ModalComponent
         }
         
         if($this->indefinitely) {
+            $this->validate([
+                'end_date' => 'nullable|after:start_date',
+            ]);
+
             $newRegular = RegulatoryTask::create([
                 'description' => $this->description,
                 'executor_id' => $this->executor_id,
-                'employee_id' => $this->employee_id,
+                'employee_id' => auth()->user()->id,
                 'equipment_id' => $this->equipment_id,
                 'status' => true,
                 'start_date' => $this->start_date,
@@ -103,9 +110,11 @@ class Store extends ModalComponent
 
     public function render()
     {
-        $this->employees = Employee::get();
-        $this->performers = Executor::get();
+        if($this->equipment_id) {
+            $this->performers = Executor::where('contractor_id', Equipment::find($this->equipment_id)->contractor_id)->get();
+        }
         $this->equipments = Equipment::get();
+
 
         return view('livewire.regulatory-tasks-monthly.store');
     }
