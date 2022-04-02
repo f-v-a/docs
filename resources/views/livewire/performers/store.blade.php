@@ -16,7 +16,7 @@
         <div class="field col-span-5">
             <x-select
             label="Контрагент"
-            placeholder="Контрагент"
+            placeholder="Контрагент(если есть)"
             wire:model.defer="contractor_id">
                 @foreach ($contractors as $contractor)
                     <x-select.option label=" {{ $contractor->name }}" 
