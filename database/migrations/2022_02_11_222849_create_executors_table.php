@@ -15,7 +15,7 @@ class CreateExecutorsTable extends Migration
     {
         Schema::create('executors', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('contractor_id')->references('id')->on('contractors')->nullable();
+            $table->foreignId('contractor_id')->nullable()->references('id')->on('contractors');
             $table->foreignId('user_id')->references('id')->on('users');
             $table->string('phone', 20)->nullable()->unique();
             $table->string('email', 100)->nullable()->unique();

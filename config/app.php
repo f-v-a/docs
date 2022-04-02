@@ -231,6 +231,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Countries' => Monarobase\CountryList\CountryListFacade::class,
+        'Carbon' => 'Carbon\Carbon',
     ],
 
 ];
