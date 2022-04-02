@@ -62,7 +62,7 @@ final class PerformersTable extends PowerGridComponent
     {
         return Executor::query()
         ->join('users', 'executors.user_id', '=', 'users.id')
-        ->join('contractors', 'executors.contractor_id', '=', 'contractors.id')
+        ->leftjoin('contractors', 'executors.contractor_id', '=', 'contractors.id')
         ->select('executors.*', 'contractors.name as contractor',
         'users.surname', 'users.name', 'users.patronymic');
     }
@@ -105,7 +105,10 @@ final class PerformersTable extends PowerGridComponent
         return PowerGrid::eloquent()
             ->addColumn('id')
             ->addColumn('user_id')
-            ->addColumn('contractor_id')
+            ->addColumn('contractor_id') 
+            ->addColumn('isContractor', function(Executor $model) {
+                return ($model->contractor_id == null) ? 'Да' : 'Нет';
+            })
             ->addColumn('email')
             ->addColumn('phone');
     }
@@ -150,23 +153,27 @@ final class PerformersTable extends PowerGridComponent
                 ->title('Отчество')
                 ->field('patronymic')
                 ->sortable()
-                ->searchable()
-                ->hidden(true, false),
+                ->searchable(),
 
             Column::add()
                 ->title('Контрагент')
                 ->sortable()
                 ->searchable()
-                ->field('contractor'),
+                ->field('contractor')
+                ->hidden(true, false),
+
+            Column::add()
+                ->title('Штатный сотрудник')
+                ->sortable()
+                ->searchable()
+                ->field('isContractor'),
 
             Column::add()
                 ->title('Телефон')
                 ->field('phone')
                 ->sortable()
                 ->searchable(),
-
-        ]
-;
+        ];
     }
 
     /*

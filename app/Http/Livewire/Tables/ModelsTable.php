@@ -34,7 +34,7 @@ final class ModelsTable extends PowerGridComponent
             ->showPerPage()
             ->showSearchInput()
             ->showToggleColumns()
-            ->showExportOption('download', ['excel', 'csv']);
+            ->showExportOption('otchet', ['excel', 'csv']);
     }
 
     protected function getListeners()
@@ -61,8 +61,8 @@ final class ModelsTable extends PowerGridComponent
     public function datasource(): ?Builder
     {
         return EquipmentModel::query()
-        ->join('equipment_types', 'equipment_models.type_id', '=', 'equipment_types.id')
-        ->select('equipment_models.*', 'equipment_types.name as type');
+        ->leftjoin('equipment_types', 'equipment_models.type_id', '=', 'equipment_types.id')
+        ->select('equipment_models.*', 'equipment_types.name as type'); 
     }
 
     /*
@@ -124,7 +124,7 @@ final class ModelsTable extends PowerGridComponent
             return [
                 Column::add()
                     ->title('ID')
-                    ->field('id')
+                    ->field('id', 'equipment_models.id')
                     ->makeInputRange('equipment_models.id')
                     ->hidden(true, false),
 
@@ -138,6 +138,7 @@ final class ModelsTable extends PowerGridComponent
                 Column::add()
                     ->title('Тип оборудования')
                     ->sortable()
+                    ->searchable()
                     ->field('type'),
 
                 Column::add()
@@ -150,8 +151,8 @@ final class ModelsTable extends PowerGridComponent
             return [
                 Column::add()
                     ->title('ID')
-                    ->field('id')
-                    ->makeInputRange()
+                    ->field('id', 'equipment_models.id')
+                    ->makeInputRange('equipment_models.id')
                     ->hidden(true, false),
 
                 Column::add()
