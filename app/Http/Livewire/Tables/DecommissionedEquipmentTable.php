@@ -21,6 +21,7 @@ final class DecommissionedEquipmentTable extends PowerGridComponent
     //Messages informing success/error data is updated.
     public bool $showUpdateMessages = true;
 
+    public string $primaryKey = 'equipment.id';
     /*
     |--------------------------------------------------------------------------
     |  Features Setup

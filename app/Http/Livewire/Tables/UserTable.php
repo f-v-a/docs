@@ -21,6 +21,7 @@ final class UserTable extends PowerGridComponent
     //Messages informing success/error data is updated.
     public bool $showUpdateMessages = true;
 
+    public string $primaryKey = 'users.id';
     /*
     |--------------------------------------------------------------------------
     |  Features Setup

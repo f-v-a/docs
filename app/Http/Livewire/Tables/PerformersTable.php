@@ -22,6 +22,7 @@ final class PerformersTable extends PowerGridComponent
     //Messages informing success/error data is updated.
     public bool $showUpdateMessages = true;
 
+    public string $primaryKey = 'executors.id';
     /*
     |--------------------------------------------------------------------------
     |  Features Setup

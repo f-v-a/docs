@@ -25,6 +25,7 @@ final class IncidentsTable extends PowerGridComponent
     //Messages informing success/error data is updated.
     public bool $showUpdateMessages = true;
 
+    public string $primaryKey = 'incidents.id';
     /*
     |--------------------------------------------------------------------------
     |  Features Setup
@@ -75,7 +76,7 @@ final class IncidentsTable extends PowerGridComponent
             ->leftjoin('executors', 'incidents.executor_id', '=', 'executors.id')
             ->leftjoin('users', 'executors.user_id', '=', 'users.id')
             ->select('incidents.*', 'equipment.name as equipmentname',
-            'users.name as name', 'equipment.contractor_id as contractor');
+            'users.name as name', 'equipment.contractor_id as contractor', 'equipment.serial_number as serial_number');
         } 
         if(auth()->user()->is_user) {
             return Incident::where('condition', '!=', 'Завершен')
@@ -84,7 +85,7 @@ final class IncidentsTable extends PowerGridComponent
             ->leftjoin('executors', 'incidents.executor_id', '=', 'executors.id')
             ->leftjoin('users', 'executors.user_id', '=', 'users.id')
             ->select('incidents.*', 'equipment.name as equipmentname',
-            'users.name as name', 'equipment.contractor_id as contractor');
+            'users.name as name', 'equipment.contractor_id as contractor', 'equipment.serial_number as serial_number');
         }
         if(auth()->user()->is_admin || auth()->user()->is_chief) {
             return Incident::where('condition', '!=', 'Завершен')
@@ -92,7 +93,7 @@ final class IncidentsTable extends PowerGridComponent
             ->leftjoin('executors', 'incidents.executor_id', '=', 'executors.id')
             ->leftjoin('users', 'executors.user_id', '=', 'users.id')
             ->select('incidents.*', 'equipment.name as equipmentname',
-            'users.name as name', 'equipment.contractor_id as contractor')      
+            'users.name as name', 'equipment.contractor_id as contractor', 'equipment.serial_number as serial_number')      
             ;
         }
     }
@@ -113,7 +114,7 @@ final class IncidentsTable extends PowerGridComponent
     public function relationSearch(): array
     {
         return [
-            'equipment' => 'name',
+            'equipment' => [ 'name', 'serial_number' ],
             'employee', 'executor' => [
                 'user' => 'surname', 'name', 'patronymic'
             ],
@@ -175,6 +176,12 @@ final class IncidentsTable extends PowerGridComponent
             Column::add()
                 ->title('Оборудование')
                 ->field('equipmentname')
+                ->sortable()
+                ->searchable(),
+
+            Column::add()
+                ->title('Серийный № об-я')
+                ->field('serial_number')
                 ->sortable()
                 ->searchable(),
 

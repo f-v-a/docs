@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Tables;
 
+use App\Models\Contractor;
 use App\Models\Equipment;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\QueryException;
@@ -21,6 +22,8 @@ final class EquipmentsTable extends PowerGridComponent
 
     //Messages informing success/error data is updated.
     public bool $showUpdateMessages = true;
+    
+    public string $primaryKey = 'equipment.id';
     /*
     |--------------------------------------------------------------------------
     |  Features Setup
@@ -61,8 +64,10 @@ final class EquipmentsTable extends PowerGridComponent
     */
     public function datasource()
     {
-        
-        return Equipment::where('status', '!=', 'Списано')->where('status', '!=', 'Выведено из эксплуатации');
+        return Equipment::where('status', '!=', 'Списано')
+        ->where('status', '!=', 'Выведено из эксплуатации')
+        ->leftjoin('contractors', 'equipment.contractor_id', '=', 'contractors.id')
+        ->select('equipment.*', 'contractors.name as contractor');
     }
     /*
     |--------------------------------------------------------------------------
@@ -116,6 +121,7 @@ final class EquipmentsTable extends PowerGridComponent
             ->addColumn('warranty_period')
             ->addColumn('status')
             ->addColumn('model_id')
+            ->addColumn('contractor_id')
             ->addColumn('price')
             ->addColumn('serial_number');
     }
@@ -157,6 +163,18 @@ final class EquipmentsTable extends PowerGridComponent
                 ->searchable(),
 
             Column::add()
+                ->title('Серийный номер')
+                ->field('serial_number')
+                ->sortable()
+                ->searchable(),
+
+            Column::add()
+                ->title('КонтрАгент')
+                ->field('contractor')
+                ->sortable()
+                ->searchable(),
+
+            Column::add()
                 ->title('№ Кабинета')
                 ->field('cabinet_number')
                 ->sortable()
@@ -166,13 +184,6 @@ final class EquipmentsTable extends PowerGridComponent
             Column::add()
                 ->title('Цена')
                 ->field('price')
-                ->sortable()
-                ->searchable()
-                ->hidden(true, false),
-                
-            Column::add()
-                ->title('Серийный номер')
-                ->field('serial_number')
                 ->sortable()
                 ->searchable()
                 ->hidden(true, false),
