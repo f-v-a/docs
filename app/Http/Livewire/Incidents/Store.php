@@ -17,7 +17,7 @@ class Store extends ModalComponent
 
     public function render()
     {   
-        $this->employee = Employee::where('user_id', (auth()->id()))->firstOrFail();
+        $this->employee = Employee::where('user_id', auth()->user()->id)->get();
 
         if(auth()->user()->is_user) {
             $this->equipments = Equipment::where('cabinet_number', $this->employee->cabinet_number)
@@ -27,11 +27,10 @@ class Store extends ModalComponent
             $this->employees = Employee::get();
                 if($this->creator_id != null) {
                     $this->equipments = Equipment::where('status', '!=', 'Списано')
-                    ->where('cabinet_number', Employee::findOrFail($this->creator_id)->cabinet_number)
+                    ->where('cabinet_number', Employee::find($this->creator_id)->cabinet_number)
                     ->get();
                 }
         }
-
 
         return view('livewire.incidents.store');
     }
@@ -46,7 +45,12 @@ class Store extends ModalComponent
     public function store() {
         $equipment = Incident::where('equipment_id', $this->equipment_id)->value('equipment_id');
         
-        if($equipment != $this->equipment_id) {
+        $incidentCondition = Incident::where('equipment_id', $this->equipment_id)
+        ->orderBy('id', 'desc')->value('condition');
+
+        // dd($incidentCondition);
+
+        if($equipment != $this->equipment_id || ($equipment == $this->equipment_id && $incidentCondition == 'Завершен')) {
             if(auth()->user()->is_admin) {
                 $this->validate([
                     'creator_id' => 'required',
