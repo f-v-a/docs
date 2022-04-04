@@ -13,7 +13,7 @@
     @livewireStyles
     @powerGridStyles
     @wireUiScripts
-    <style> .dataTables_wrapper select {background-image: unset;} 
+    <style> .dataTables_wrapper select {background-image: unset;}
     </style>
     <title>@yield('title')</title>
 </head>
@@ -102,6 +102,11 @@
                                 <a href="{{ route('completed-incidents.index') }}" class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
                                     Завершенные
                                 </a>
+                                @if (auth()->user()->is_admin || auth()->user()->is_chief)
+                                <a href="{{ route('regulatory-tasks.index') }}" class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
+                                    Регламентные задачи
+                                </a>  
+                                @endif
                             </div>
                         </div>
                         @if (auth()->user()->is_admin || auth()->user()->is_chief)
@@ -208,7 +213,7 @@
                     <svg class="w-6 h-6 fill-current" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
             </div>
-            <section class="max-w-8xl mx-auto py-4 px-5">
+            <section class="max-w-10xl mx-auto py-4 px-5">
                 <div class="flex flex-col justify-between md:flex-row items-center border-b border-gray-300">
                     <h1 class="text-2xl font-semibold">@yield('page-title')</h1>
                     <nav class="flex pt-3 pb-2" aria-label="Breadcrumb">
@@ -224,7 +229,6 @@
                 <div class="bg-white my-10">
                     <div class="px-4 py-4">
                         @yield('content')
-
                     </div>
                 </div>
                 <!-- END OF TABLE -->
@@ -234,7 +238,6 @@
         </main>
     </div>
     @endauth
-
 @livewireScripts
 @powerGridScripts
 @livewire('livewire-ui-modal')
