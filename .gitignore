@@ -4,7 +4,6 @@
 # /public/mix-manifest.json
 /storage/*.key
 /vendor/*
-!/vendor/wireui/wireui/resources/views/components/select.blade.php
 .env.backup
 .phpunit.result.cache
 .php-cs-fixer.cache
@@ -17,3 +16,5 @@ yarn-error.log
 /.vscode
 run.sh
 composer.sh
+app/Http/Livewire/PowerGridDemoTable.php
+.env
