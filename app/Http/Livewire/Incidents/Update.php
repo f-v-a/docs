@@ -7,6 +7,7 @@ use App\Models\Equipment;
 use App\Models\Executor;
 use App\Models\Incident;
 use App\Models\IncidentHistory;
+use App\Models\User;
 use Carbon\Carbon;
 use LivewireUI\Modal\ModalComponent;
 use WireUi\Traits\Actions;
@@ -42,7 +43,8 @@ class Update extends ModalComponent
     {
         $this->equipments = Equipment::get();
         $this->employees = Employee::get();
-        $this->performers = Executor::where('contractor_id', $this->contractor)->get();
+        $this->performers = Executor::where('contractor_id', $this->contractor)
+        ->orWhere('contractor_id', null)->get();
 
         return view('livewire.incidents.update');
     }

@@ -10,11 +10,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
     <link rel="stylesheet" href="{{ asset('dist/app.css') }}">
-    {{-- <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.1/dist/flowbite.min.css" /> --}}
     @livewireStyles
     @powerGridStyles
     @wireUiScripts
-    <style> .dataTables_wrapper select {background-image: unset;} 
+    <style> .dataTables_wrapper select {background-image: unset;}
     </style>
     <title>@yield('title')</title>
 </head>
@@ -23,7 +22,7 @@
     @auth
     <div class="flex relative" x-data="{navOpen: false}">
         <!-- NAV -->
-        <nav class="absolute z-10 md:relative w-64 transform -translate-x-full md:translate-x-0 h-screen overflow-y-scroll bg-black transition-all duration-300" :class="{'-translate-x-full': !navOpen}">
+        <nav class="absolute z-10 md:relative w-68 transform -translate-x-full md:translate-x-0 h-screen overflow-y-scroll bg-black transition-all duration-300" :class="{'-translate-x-full': !navOpen}">
             <div class="flex flex-col justify-between h-full">
                 <div class="p-4">
                     <!-- LOGO -->
@@ -33,7 +32,7 @@
                     </a>
 
                     <!-- NAV LINKS -->
-                    <div class="py-4 text-gray-400 space-y-1">
+                    <div class="py-4 text-gray-400 space-y-1 text-lg">
                         <!-- DROPDOWN LINK -->
                         @if (auth()->user()->is_admin || auth()->user()->is_user)
                         <div class="block" x-data="{open: false, openRegular: false}">
@@ -45,7 +44,7 @@
                                 <svg x-show="open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
                                 <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>    
                             </div>
-                            <div x-show="open" class="text-sm border-l-2 border-gray-800 mx-6 my-2.5 px-2.5 flex flex-col gap-y-1">
+                            <div x-show="open" class="text-base border-l-2 border-gray-800 mx-6 my-2.5 px-2.5 flex flex-col gap-y-1">
                                 <a href="#" onclick="Livewire.emit('openModal', 'incidents.store')" 
                                 class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
                                     Инцидент
@@ -69,7 +68,7 @@
                                         <span>Регламентная задача</span>
                                     </div>
                                     
-                                    <div x-show="openRegular" class="text-sm border-l-2 border-gray-800 ml-6 my-2.5 px-2 flex flex-col gap-y-1">
+                                    <div x-show="openRegular" class="text-base border-l-2 border-gray-800 ml-6 my-2.5 px-2 flex flex-col gap-y-1">
                                         <a href="#" onclick="Livewire.emit('openModal', 'regulatory-tasks-daily.store')"
                                         class="block py-2 px-2 hover:bg-gray-800 hover:text-white rounded">
                                             По дням
@@ -96,13 +95,18 @@
                                 <svg x-show="open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
                                 <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>    
                             </div>
-                            <div x-show="open" class="text-sm border-l-2 border-gray-800 mx-6 my-2.5 px-2.5 flex flex-col gap-y-1">
+                            <div x-show="open" class="text-base border-l-2 border-gray-800 mx-6 my-2.5 px-2.5 flex flex-col gap-y-1">
                                 <a href="{{ route('incidents.index') }}" class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
                                     Входящие
                                 </a>
                                 <a href="{{ route('completed-incidents.index') }}" class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
                                     Завершенные
                                 </a>
+                                @if (auth()->user()->is_admin || auth()->user()->is_chief)
+                                <a href="{{ route('regulatory-tasks.index') }}" class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
+                                    Регламентные задачи
+                                </a>  
+                                @endif
                             </div>
                         </div>
                         @if (auth()->user()->is_admin || auth()->user()->is_chief)
@@ -115,7 +119,7 @@
                                     <svg x-show="open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
                                     <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>    
                                 </div>
-                                <div x-show="open" class="text-sm border-l-2 border-gray-800 mx-6 my-2.5 px-2.5 flex flex-col gap-y-1">
+                                <div x-show="open" class="text-base border-l-2 border-gray-800 mx-6 my-2.5 px-2.5 flex flex-col gap-y-1">
                                     <a href="{{ route('active.index') }}" class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
                                         Активное
                                     </a>
@@ -136,12 +140,12 @@
                                     <svg x-show="open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
                                     <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>    
                                 </div>
-                                <div x-show="open" class="text-sm border-l-2 border-gray-800 mx-6 my-2.5 px-2.5 flex flex-col gap-y-1">
+                                <div x-show="open" class="text-base border-l-2 border-gray-800 mx-6 my-2.5 px-2.5 flex flex-col gap-y-1">
                                     <a href="{{ route('employees.index') }}" class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
                                         Сотрудники
                                     </a>
                                     <a href="{{ route('contractors.index') }}" class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
-                                        Контрагенты
+                                        Контрагенты & Мастера
                                     </a>
                                 </div>
                             </div>
@@ -154,7 +158,7 @@
                                     <svg x-show="open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
                                     <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>    
                                 </div>
-                                <div x-show="open" class="text-sm border-l-2 border-gray-800 mx-6 my-2.5 px-2.5 flex flex-col gap-y-1">
+                                <div x-show="open" class="text-base border-l-2 border-gray-800 mx-6 my-2.5 px-2.5 flex flex-col gap-y-1">
                                     <a href="{{ route('types.index') }}" class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
                                         Типы
                                     </a>
@@ -209,7 +213,7 @@
                     <svg class="w-6 h-6 fill-current" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
             </div>
-            <section class="max-w-8xl mx-auto py-4 px-5">
+            <section class="max-w-10xl mx-auto py-4 px-5">
                 <div class="flex flex-col justify-between md:flex-row items-center border-b border-gray-300">
                     <h1 class="text-2xl font-semibold">@yield('page-title')</h1>
                     <nav class="flex pt-3 pb-2" aria-label="Breadcrumb">
@@ -225,7 +229,6 @@
                 <div class="bg-white my-10">
                     <div class="px-4 py-4">
                         @yield('content')
-
                     </div>
                 </div>
                 <!-- END OF TABLE -->
@@ -235,7 +238,6 @@
         </main>
     </div>
     @endauth
-
 @livewireScripts
 @powerGridScripts
 @livewire('livewire-ui-modal')

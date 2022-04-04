@@ -23,6 +23,7 @@ final class CompletedIncidentsTable extends PowerGridComponent
     //Messages informing success/error data is updated.
     public bool $showUpdateMessages = true;
 
+    public string $primaryKey = 'incidents.id';
     /*
     |--------------------------------------------------------------------------
     |  Features Setup

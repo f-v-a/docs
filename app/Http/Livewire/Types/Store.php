@@ -11,7 +11,7 @@ class Store extends ModalComponent
     use Actions;
 
     public $name, $success = false;
-    
+
     public function render()
     {
         return view('livewire.types.store');
@@ -27,7 +27,6 @@ class Store extends ModalComponent
         ]);
         
         if($newType) {
-            // $this->emit('refresh');
             $this->forceClose()->closeModal();
                 $this->notification()->success(
                 $title = 'Успешно',
@@ -36,3 +35,4 @@ class Store extends ModalComponent
         }
     }
 }
+

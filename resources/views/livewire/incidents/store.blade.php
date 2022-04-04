@@ -30,7 +30,7 @@
                     placeholder="Выберите оборудование"
                     wire:model.defer="equipment_id">
                         @foreach ($equipments as $equipment)
-                            <x-select.option label="{{ $equipment->name }}" value="{{ $equipment->id }}" />
+                            <x-select.option label="{{ $equipment->name }} Серийный № {{ $equipment->serial_number }}" value="{{ $equipment->id }}" />
                         @endforeach
                     </x-select>
                 </div>

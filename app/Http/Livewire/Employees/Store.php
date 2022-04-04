@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Employees;
 
 use App\Models\Employee;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use LivewireUI\Modal\ModalComponent;
 use WireUi\Traits\Actions;
 
@@ -15,10 +16,10 @@ class Store extends ModalComponent
 
     public function render()
     {
-        $this->users = User::where('role_id', 1)
-        ->orWhere('role_id', 2)
-        ->orWhere('role_id', 4)
-        // ->where('id', '!=', Employee::pluck('id'))
+        $this->users = User::whereNotIn('id', Employee::pluck('user_id'))
+        ->whereNot(function($query) {
+            $query->where('role_id', 3);
+        })
         ->get();
         return view('livewire.employees.store');
     }
