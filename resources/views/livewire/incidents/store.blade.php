@@ -1,4 +1,4 @@
-<x-card blur title="Добавить данные">
+<x-card title="Добавить данные">
     <div class="grid grid-cols-1 gap-3">
         <div class="field">
             <x-textarea wire:model.defer="description" label="Описание" placeholder="Описание инцидента" />
@@ -44,7 +44,7 @@
             placeholder="Выберите оборудование"
             wire:model.defer="equipment_id">
                 @foreach ($equipments as $equipment)
-                    <x-select.option label="{{ $equipment->name }}" value="{{ $equipment->id }}" />
+                    <x-select.option label="{{ $equipment->name }} Серийный № {{ $equipment->serial_number }}" value="{{ $equipment->id }}" />
                 @endforeach
             </x-select>
         </div>
