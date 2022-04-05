@@ -283,7 +283,7 @@ final class EquipmentsTable extends PowerGridComponent
 
     public function header(): array
     {
-        if(auth()->user()->is_admin || auth()->user()->is_chief) {
+        if(auth()->user()->is_admin) {
             return [
                 Button::add('writtenOff')
                     ->caption(__('Списать оборудование'))
