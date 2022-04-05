@@ -19,7 +19,7 @@ class Update extends ModalComponent
     public $selectedId, $equipment_id, $executor_id, $creator_id, $description, $influence, $date_completion, $contractor, $conclusion, $condition, $agreement;
 
     public function mount($id, $contractor_id)
-    { 
+    {
         $editIncident = Incident::findOrFail($id);
         $this->selectedId = $id;
         $this->description = $editIncident->description;
@@ -30,27 +30,29 @@ class Update extends ModalComponent
         $this->contractor = $contractor_id;
         $this->condition = $editIncident->condition;
     }
-    
-    private function resetInput() {
+
+    private function resetInput()
+    {
         $this->equipment_id = null;
         $this->creator_id = null;
         $this->executor_id = null;
         $this->description = null;
         $this->influence = null;
     }
-    
+
     public function render()
     {
         $this->equipments = Equipment::get();
         $this->employees = Employee::get();
         $this->performers = Executor::where('contractor_id', $this->contractor)
-        ->orWhere('contractor_id', null)->get();
+            ->orWhere('contractor_id', null)->get();
 
         return view('livewire.incidents.update');
     }
 
-    public function update() {
-        if(auth()->user()->is_admin || auth()->user()->is_chief) {
+    public function update()
+    {
+        if (auth()->user()->is_admin || auth()->user()->is_chief) {
             $this->validate([
                 'creator_id' => 'required',
                 'influence' => 'required',
@@ -58,7 +60,7 @@ class Update extends ModalComponent
                 'executor_id' => 'required',
             ]);
 
-            if($this->selectedId) {
+            if ($this->selectedId) {
                 $updateIncident = Incident::find($this->selectedId);
 
                 $updateIncident->update([
@@ -69,10 +71,11 @@ class Update extends ModalComponent
                 IncidentHistory::create([
                     'user_id' => auth()->user()->id,
                     'condition' => 'На согласовании',
-                    'incident_id' => Incident::find($this->selectedId)->value('id'),
+                    'incident_id' => $this->selectedId,
                 ]);
-                
+
                 $this->forceClose()->closeModal();
+                $this->emitTo('tables.incidents-table', 'refresh');
                 $this->resetInput();
                 $this->notification()->success(
                     $title = 'Успешно',
@@ -81,12 +84,12 @@ class Update extends ModalComponent
             }
         }
 
-        if(auth()->user()->is_performer) {
+        if (auth()->user()->is_performer) {
             $this->validate([
                 'conclusion' => 'required',
             ]);
 
-            if($this->selectedId) {
+            if ($this->selectedId) {
                 $updateIncident = Incident::find($this->selectedId);
 
                 $updateIncident->update([
@@ -98,11 +101,12 @@ class Update extends ModalComponent
                 IncidentHistory::create([
                     'user_id' => auth()->user()->id,
                     'condition' => 'На проверке',
-                    'incident_id' => Incident::find($this->selectedId)->value('id'),
+                    'incident_id' => $this->selectedId,
                     'conclusion' => $this->conclusion,
                 ]);
-                
+
                 $this->forceClose()->closeModal();
+                $this->emitTo('tables.incidents-table', 'refresh');
                 $this->resetInput();
                 $this->notification()->success(
                     $title = 'Успешно',
@@ -112,70 +116,73 @@ class Update extends ModalComponent
         }
     }
 
-    public function reject() {
-        if($this->selectedId) {
-            if(auth()->user()->is_performer)
+    public function reject()
+    {
+        if ($this->selectedId) {
+            if (auth()->user()->is_performer)
                 $updateIncident = Incident::find($this->selectedId);
+
+            $updateIncident->update([
+                'conclusion' => $this->conclusion,
+                'condition' => 'Отклонен исполнителем',
+                'updated_at' => Carbon::now(),
+            ]);
+
+            IncidentHistory::create([
+                'user_id' => auth()->user()->id,
+                'condition' => 'Отклонен исполнителем',
+                'conclusion' => $this->conclusion,
+                'incident_id' => $updateIncident->id,
+            ]);
+
+            $this->forceClose()->closeModal();
+            $this->emitTo('tables.incidents-table', 'refresh');
+            $this->resetInput();
+            $this->notification()->success(
+                $title = 'Успешно',
+                $description = 'Данные успешно сохранены'
+            );
+        }
+    }
+
+    public function agreement($agr)
+    {
+        if ($this->selectedId) {
+
+            $updateIncident = Incident::find($this->selectedId);
+            if ($agr == 0) {
+                $updateIncident->update([
+                    'condition' => 'Смена исполнителя',
+                ]);
+                IncidentHistory::create([
+                    'condition' => 'Смена исполнителя',
+                    'conclusion' => $this->conclusion,
+                    'user_id' => auth()->user()->id,
+                    'incident_id' => $updateIncident->id
+                ]);
+            } else {
+                $this->validate([
+                    'conclusion' => 'required',
+                ]);
 
                 $updateIncident->update([
-                    'conclusion' => $this->conclusion,
-                    'condition' => 'Отклонен исполнителем',
-                    'updated_at' => Carbon::now(),
+                    'condition' => 'Завершен',
+                    'date_completion' => Carbon::now(),
                 ]);
-
                 IncidentHistory::create([
-                    'user_id' => auth()->user()->id,
-                    'condition' => 'Отклонен исполнителем',
+                    'condition' => 'Завершен',
                     'conclusion' => $this->conclusion,
-                    'incident_id' => $updateIncident->id,
+                    'user_id' => auth()->user()->id,
+                    'incident_id' => $updateIncident->id
                 ]);
-
-                $this->forceClose()->closeModal();
-                $this->resetInput();
-                $this->notification()->success(
-                    $title = 'Успешно',
-                    $description = 'Данные успешно сохранены'
-                );
+            }
+            $this->forceClose()->closeModal();
+            $this->emitTo('tables.incidents-table', 'refresh');
+            $this->resetInput();
+            $this->notification()->success(
+                $title = 'Успешно',
+                $description = 'Данные успешно сохранены'
+            );
         }
     }
-
-    public function agreement($agr) {
-        if($this->selectedId) {
-
-                $updateIncident = Incident::find($this->selectedId);
-                if($agr == 0) {
-                    $updateIncident->update([
-                        'condition' => 'Смена исполнителя',
-                    ]);
-                    IncidentHistory::create([
-                        'condition' => 'Смена исполнителя',
-                        'conclusion' => $this->conclusion,
-                        'user_id' => auth()->user()->id,
-                        'incident_id' => $updateIncident->id
-                    ]);
-                }
-                else {
-                    $this->validate([
-                        'conclusion' => 'required',
-                    ]);
-                    
-                    $updateIncident->update([
-                        'condition' => 'Завершен',
-                        'date_completion' => Carbon::now(),
-                    ]);
-                    IncidentHistory::create([
-                        'condition' => 'Завершен',
-                        'conclusion' => $this->conclusion,
-                        'user_id' => auth()->user()->id,
-                        'incident_id' => $updateIncident->id
-                    ]);
-                }
-                $this->forceClose()->closeModal();
-                $this->resetInput();
-                $this->notification()->success(
-                    $title = 'Успешно',
-                    $description = 'Данные успешно сохранены'
-                );
-            } 
-        }
-    }
+}

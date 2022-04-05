@@ -62,7 +62,7 @@ class Update extends ModalComponent
             'serial_number'=>'required',
             'manufacture_date'=>'required',
             'buy_date'=>'required',
-            'commissioning_date'=>'required',
+            'commissioning_date'=>'required|after:manufacture_date',
             'warranty_period'=>'required',
         ]);
 
