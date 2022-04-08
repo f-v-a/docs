@@ -62,10 +62,11 @@ final class PerformersTable extends PowerGridComponent
     public function datasource(): ?Builder
     {
         return Executor::query()
-        ->join('users', 'executors.user_id', '=', 'users.id')
+        ->leftjoin('users', 'executors.user_id', '=', 'users.id')
         ->leftjoin('contractors', 'executors.contractor_id', '=', 'contractors.id')
-        ->select('executors.*', 'contractors.name as contractor',
-        'users.surname', 'users.name', 'users.patronymic');
+        ->select('executors.*',
+        'contractors.name as contractor',
+        'users.surname', 'users.name', 'users.patronymic', 'users.email', 'users.phone');
     }
 
     /*
@@ -85,7 +86,7 @@ final class PerformersTable extends PowerGridComponent
     {
         return [
             'user' => [
-                'surname', 'name', 'patronymic'
+                'surname', 'name', 'patronymic', 'email', 'phone',
             ],
             'contractor' => [
                 'name'
@@ -109,9 +110,7 @@ final class PerformersTable extends PowerGridComponent
             ->addColumn('contractor_id') 
             ->addColumn('isContractor', function(Executor $model) {
                 return ($model->contractor_id == null) ? 'Да' : 'Нет';
-            })
-            ->addColumn('email')
-            ->addColumn('phone');
+            });
     }
 
     /*
@@ -170,10 +169,18 @@ final class PerformersTable extends PowerGridComponent
                 ->field('isContractor'),
 
             Column::add()
+                ->title('Email')
+                ->field('email')
+                ->sortable()
+                ->searchable()
+                ->hidden(true, false),
+
+            Column::add()
                 ->title('Телефон')
                 ->field('phone')
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->hidden(true, false),
         ];
     }
 

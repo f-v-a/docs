@@ -14,7 +14,7 @@ class Update extends ModalComponent
 {
     use Actions;
 
-    public $name, $surname, $patronymic, $position_id, $role_id, $login;
+    public $name, $surname, $patronymic, $position_id, $role_id, $login, $phone, $email;
 
     public function mount($id)
     { 
@@ -26,6 +26,8 @@ class Update extends ModalComponent
         $this->patronymic = $editUser->patronymic;
         $this->position_id = $editUser->position_id;
         $this->role_id = $editUser->role_id;
+        $this->phone = $editUser->position_iphoned;
+        $this->email = $editUser->email;
     }
     
     private function resetInput() {
@@ -34,6 +36,8 @@ class Update extends ModalComponent
         $this->patronymic = null;
         $this->position_id = null;
         $this->role_id = null;
+        $this->phone = null; 
+        $this->email = null;
     }
     
     public function render()
@@ -49,6 +53,7 @@ class Update extends ModalComponent
             'name' => 'required',
             'surname' => 'required',
             'position_id' => 'required',
+            'email' => 'email',
         ]);
 
         if($this->selectedId) {
@@ -61,6 +66,8 @@ class Update extends ModalComponent
                 'position_id' => $this->position_id,
                 'role_id' => $this->role_id,
                 'login' => $this->login,
+                'phone' => $this->phone,
+                'email' => $this->email,
             ]);
 
             $this->forceClose()->closeModal();

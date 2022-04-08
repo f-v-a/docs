@@ -12,7 +12,7 @@ class Update extends ModalComponent
 {
     use Actions;
 
-    public $email, $phone, $contractor_id, $user_id, $selectedId;
+    public $contractor_id, $user_id, $selectedId;
 
     public function render()
     {
@@ -29,15 +29,12 @@ class Update extends ModalComponent
         $this->selectedId = $id;
         $this->contractor_id = $editPerformer->contractor_id;
         $this->user_id = $editPerformer->user_id;
-        $this->email = $editPerformer->email;
-        $this->phone = $editPerformer->phone;
     }
     
     public function update() {
         $this->validate([
             'contractor_id' => 'required',
             'user_id' => 'required',
-            'email' => 'email'
         ]);
 
         if($this->selectedId) {
@@ -46,8 +43,6 @@ class Update extends ModalComponent
             $updatePerformer->update([
                 'contractor_id' => $this->contractor_id,
                 'user_id' => $this->user_id,
-                'email' => $this->email,
-                'phone' => $this->phone,
             ]);
 
             $this->forceClose()->closeModal();

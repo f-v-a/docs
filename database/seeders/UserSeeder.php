@@ -109,35 +109,27 @@ class UserSeeder extends Seeder
         DB::table('contractors')->insert([
             'description' => 'Контрагент',
             'name' => 'ООО Контрагент',
-            'email' => 'contragent@gmail.com',
             'inn' => '123456789123',
         ]);
 
         DB::table('contractors')->insert([
             'description' => 'Контрагент2',
             'name' => 'ООО Контрагент2',
-            'email' => 'contragent2@gmail.com',
             'inn' => '123456789122',
         ]);
 
         DB::table('executors')->insert([
             'contractor_id' => 1,
             'user_id' => 2,
-            'email' => 'performer@gmail.com',
-            'phone' => '89123334455',
         ]);
 
         DB::table('executors')->insert([
             'contractor_id' => 2,
             'user_id' => 5,
-            'email' => 'performer2@gmail.com',
-            'phone' => '89123334466',
         ]);
 
         DB::table('executors')->insert([
             'user_id' => 6,
-            'email' => 'performer3@gmail.com',
-            'phone' => '89123334123',
         ]);
     }
 }

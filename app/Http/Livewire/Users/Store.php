@@ -15,7 +15,7 @@ class Store extends ModalComponent
 {
     use Actions, PasswordValidationRules;
 
-    public $name, $surname, $patronymic, $position_id, $role_id, $password, $login;
+    public $name, $surname, $patronymic, $position_id, $role_id, $password, $login, $email, $phone;
 
     public function render()
     {
@@ -33,6 +33,8 @@ class Store extends ModalComponent
         $this->role_id = null;
         $this->login = null;
         $this->password = null;
+        $this->phone = null;
+        $this->email = null;
     }
 
     public function store()
@@ -45,6 +47,7 @@ class Store extends ModalComponent
             'patronymic' => 'alpha|max:150',
             'position_id' => 'numeric',
             'role_id' => 'numeric',
+            'email' => 'email',
         ]);
 
         $newUser = User::create([
@@ -55,6 +58,8 @@ class Store extends ModalComponent
             'role_id' => $this->role_id,
             'login' => $this->login,
             'password' => Hash::make($this->password),
+            'phone' => $this->phone,
+            'email' => $this->email,
         ]);
 
         if($newUser) {

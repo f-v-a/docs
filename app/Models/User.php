@@ -26,7 +26,9 @@ class User extends Authenticatable
         'surname', 
         'patronymic', 
         'position_id',
-        'role_id'
+        'role_id',
+        'email',
+        'phone',
     ];
 
     /**
@@ -39,6 +41,8 @@ class User extends Authenticatable
         'remember_token',
         'position_id',
         'role_id',
+        'email',
+        'phone'
     ];
 
     /**

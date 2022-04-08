@@ -11,7 +11,7 @@ class Update extends ModalComponent
 {
     use Actions;
 
-    public $cabinet_number, $gender, $birthday, $phone, $email, $user_id, $selectedId;
+    public $cabinet_number, $gender, $birthday, $user_id, $selectedId;
 
     public function mount($id)
     { 
@@ -30,8 +30,6 @@ class Update extends ModalComponent
         $this->cabinet_number = null;
         $this->gender = null;
         $this->birthday = null;
-        $this->phone = null;
-        $this->email = null;
     }
 
     public function render()
@@ -46,7 +44,6 @@ class Update extends ModalComponent
             'gender' => 'required',
             'birthday' => 'required',
             'user_id' => 'required',
-            'email' => 'email',
         ]);
 
         if($this->selectedId) {
@@ -57,8 +54,6 @@ class Update extends ModalComponent
                 'cabinet_number' => $this->cabinet_number,
                 'gender' => $this->gender,
                 'birthday' => $this->birthday,
-                'phone' => $this->phone,
-                'email' => $this->email,
             ]);
 
             $this->forceClose()->closeModal();

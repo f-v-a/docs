@@ -23,17 +23,6 @@
                 @endforeach
             </x-select>
         </div>
-        <div class="field col-span-3">
-            <x-input class="pr-28" label="Email" placeholder="Введите Email" suffix="@gmail.com" wire:model.defer="email"/>
-        </div>
-        <div class="field col-span-2">
-            <x-inputs.maskable
-            label="Телефон"
-            mask="#(###) ###-##-##"
-            placeholder="Введите номер телефона"
-            wire:model.defer="phone"
-            />
-        </div>
     </div>
     <x-slot name="footer">
         <div class="flex justify-end gap-x-4">

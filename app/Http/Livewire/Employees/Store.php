@@ -12,7 +12,7 @@ class Store extends ModalComponent
 {
     use Actions;
 
-    public $cabinet_number, $gender, $birthday, $phone, $email, $user_id;
+    public $cabinet_number, $gender, $birthday, $user_id;
 
     public function render()
     {
@@ -29,8 +29,6 @@ class Store extends ModalComponent
         $this->cabinet_number = null;
         $this->gender = null;
         $this->birthday = null;
-        $this->phone = null;
-        $this->email = null;
     }
 
     public function store() {
@@ -38,7 +36,6 @@ class Store extends ModalComponent
             'gender' => 'required',
             'birthday' => 'required',
             'user_id' => 'required',
-            'email' => 'email',
         ]);
 
         $newEmployee = Employee::create([
@@ -46,8 +43,6 @@ class Store extends ModalComponent
             'cabinet_number' => $this->cabinet_number,
             'gender' => $this->gender,
             'birthday' => $this->birthday,
-            'phone' => $this->phone,
-            'email' => $this->email,
         ]);
         
         if($newEmployee) {

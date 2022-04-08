@@ -64,7 +64,13 @@ final class EmployeeTable extends PowerGridComponent
         return Employee::query()
         ->leftjoin('users', 'employees.user_id', '=', 'users.id')
         ->leftjoin('positions', 'users.position_id', '=', 'positions.id')
-        ->select('employees.*', 'positions.name as position', 'users.surname as surname', 'users.name as name' ,'users.patronymic as patronymic');
+        ->select('employees.*', 
+        'positions.name as position',
+        'users.surname as surname',
+        'users.name as name',
+        'users.patronymic as patronymic',
+        'users.email as email',
+        'users.phone as phone');
     }
 
     /*
@@ -84,7 +90,7 @@ final class EmployeeTable extends PowerGridComponent
     {
         return [
             'user' => [
-                'surname', 'name', 'patronymic',
+                'surname', 'name', 'patronymic', 'email', 'phone',
 
                 'position' => [
                     'name'
@@ -110,8 +116,6 @@ final class EmployeeTable extends PowerGridComponent
             ->addColumn('birthday_formatted', function(Employee $model) { 
                 return Carbon::parse($model->birthday)->format('d/m/Y');
             })
-            ->addColumn('phone')
-            ->addColumn('email')
             ->addColumn('cabinet_number');
     }
 
@@ -155,8 +159,7 @@ final class EmployeeTable extends PowerGridComponent
                 ->title('Отчество')
                 ->field('patronymic')
                 ->sortable()
-                ->searchable()
-                ->hidden(true, false),
+                ->searchable(),
 
                 Column::add()
                 ->title('Должность')
@@ -168,7 +171,15 @@ final class EmployeeTable extends PowerGridComponent
                 ->title('Телефон')
                 ->field('phone')
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->hidden(true, false),
+
+            Column::add()
+                ->title('Email')
+                ->field('email')
+                ->sortable()
+                ->searchable()
+                ->hidden(true, false),
 
             Column::add()
                 ->title('Номер кабинета')
