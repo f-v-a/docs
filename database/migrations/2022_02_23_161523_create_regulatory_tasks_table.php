@@ -17,12 +17,12 @@ class CreateRegulatoryTasksTable extends Migration
             $table->id();
             $table->text('description');
             $table->foreignId('executor_id')->references('id')->on('executors');
-            $table->foreignId('employee_id')->references('id')->on('employees');
             $table->foreignId('equipment_id')->references('id')->on('equipment');
             $table->boolean('status');
             $table->date('start_date');
             $table->string('dates')->nullable();
             $table->string('periodicity', 40)->nullable();
+            $table->string('mode', 10);
             $table->string('end_date', 40)->nullable();
         });
     }

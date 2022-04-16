@@ -10,21 +10,18 @@ class RegulatoryTask extends Model
     use HasFactory;
 
     public $timestamps = false;
-    
-    protected $fillable = ['description', 'status', 'start_date', 'dates', 'periodicity', 'end_date', 'executor_id', 'employee_id', 'equipment_id'];
 
-    public function employee() {
-        
-        return $this->belongsTo(Employee::class, 'employee_id');
-    }
+    protected $fillable = ['description', 'status', 'start_date', 'dates', 'periodicity', 'end_date', 'executor_id', 'equipment_id', 'mode'];
 
-    public function performer() {
-        
+    public function performer()
+    {
+
         return $this->belongsTo(Executor::class, 'executor_id');
     }
 
-    public function equipment() {
-        
+    public function equipment()
+    {
+
         return $this->belongsTo(Equipment::class, 'equipment_id');
     }
 }
