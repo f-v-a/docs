@@ -12,16 +12,12 @@ class Store extends ModalComponent
 
     public $name, $success = false;
 
-    public function render() 
+    public function render()
     {
         return view('livewire.types.store');
     }
 
-<<<<<<< HEAD
-    public function store()     
-=======
     public function store()
->>>>>>> feature/1
     {
         $this->validate([
             'name' => 'required|unique:equipment_types|regex:/^([^0-9]*)$/'
