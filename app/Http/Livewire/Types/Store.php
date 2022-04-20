@@ -17,7 +17,8 @@ class Store extends ModalComponent
         return view('livewire.types.store');
     }
 
-    public function store() {
+    public function store()
+    {
         $this->validate([
             'name' => 'required|unique:equipment_types|regex:/^([^0-9]*)$/'
         ]);
@@ -25,14 +26,13 @@ class Store extends ModalComponent
         $newType = EquipmentType::create([
             'name' => $this->name
         ]);
-        
-        if($newType) {
+
+        if ($newType) {
             $this->forceClose()->closeModal();
-                $this->notification()->success(
+            $this->notification()->success(
                 $title = 'Успешно',
                 $description = 'Данные успешно сохранены'
             );
         }
     }
 }
-
