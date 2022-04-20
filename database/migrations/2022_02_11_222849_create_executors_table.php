@@ -17,8 +17,6 @@ class CreateExecutorsTable extends Migration
             $table->id();
             $table->foreignId('contractor_id')->nullable()->references('id')->on('contractors');
             $table->foreignId('user_id')->references('id')->on('users');
-            $table->string('phone', 11)->nullable()->unique();
-            $table->string('email', 100)->nullable()->unique();
         });
     }
 

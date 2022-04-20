@@ -19,8 +19,6 @@ class CreateEmployeesTable extends Migration
             $table->string('cabinet_number', 5)->nullable();
             $table->char('gender', 1);
             $table->date('birthday');
-            $table->string('phone', 11)->nullable()->unique();
-            $table->string('email', 100)->nullable()->unique();
         });
     }
 

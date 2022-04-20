@@ -12,6 +12,17 @@
         <div class="field col-span-12">
             <x-input label="Отчество" placeholder="Введите отчество" wire:model.defer="patronymic"/>
         </div>
+        <div class="field col-span-12">
+            <x-input class="pr-28" label="Email" placeholder="Email" suffix="@gmail.com" wire:model.defer="email"/>
+        </div>
+        <div class="field col-span-12">
+            <x-inputs.maskable
+            label="Телефон"
+            mask="#(###) ###-##-##"
+            placeholder="Номер телефона"
+            wire:model.defer="phone"
+            />
+        </div>
         <div class="field col-span-6">
             <x-select
             label="Должность"

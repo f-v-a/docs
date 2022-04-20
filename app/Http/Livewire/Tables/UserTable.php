@@ -107,7 +107,9 @@ final class UserTable extends PowerGridComponent
             ->addColumn('surname')
             ->addColumn('patronymic')
             ->addColumn('login')
-            ->addColumn('role_id');
+            ->addColumn('role_id')
+            ->addColumn('phone')
+            ->addColumn('email');
     }
 
     /*
@@ -150,8 +152,7 @@ final class UserTable extends PowerGridComponent
                 ->title('Отчество')
                 ->field('patronymic')
                 ->sortable()
-                ->searchable()
-                ->hidden(true, false),
+                ->searchable(),
 
             Column::add()
                 ->title('Логин')
@@ -170,6 +171,20 @@ final class UserTable extends PowerGridComponent
                 ->sortable()
                 ->field('position')
                 ->searchable(),
+
+            Column::add()
+                ->title('Телефон')
+                ->sortable()
+                ->field('phone')
+                ->searchable()
+                ->hidden(true, false),
+
+            Column::add()
+                ->title('Email')
+                ->sortable()
+                ->field('email')
+                ->searchable()
+                ->hidden(true, false),
         ]
 ;
     }
