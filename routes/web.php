@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RegulatoryTaskController;
 use Spatie\GoogleCalendar\Event;
 use Illuminate\Support\Facades\Route;
 
@@ -15,51 +16,50 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => 'auth'], function() {
+Route::group(['middleware' => 'auth'], function () {
 
-    Route::group(['prefix' => 'inbox'] ,function () {
+    Route::group(['prefix' => 'inbox'], function () {
 
         Route::view('incidents', 'incidents.incidents')->name('incidents.index');
 
-        Route::view('regulatory-tasks', 'incidents.regulatory')->name('regulatory-tasks.index')->middleware('is_admin');
+        Route::get('regulatory-tasks', [RegulatoryTaskController::class, 'index'])->name('regulatory-tasks.index')->middleware('is_admin');
     });
-    
-    Route::group(['prefix' => 'completed'] ,function () {
-        
+
+    Route::group(['prefix' => 'completed'], function () {
+
         Route::view('completed-incidents', 'incidents.incidents')->name('completed-incidents.index');
     });
-    
-    Route::group(['middleware' => 'is_admin'], function() {
 
-        Route::group(['prefix' => 'control/equipments'] ,function () {
+    Route::group(['middleware' => 'is_admin'], function () {
 
-                Route::view('active', 'equipments.equipments')->name('active.index');
-        
-                Route::view('decommissioned', 'equipments.equipments')->name('decommissioned.index');
-        
-                Route::view('written-off', 'equipments.equipments')->name('written-off.index');
+        Route::group(['prefix' => 'control/equipments'], function () {
+
+            Route::view('active', 'equipments.equipments')->name('active.index');
+
+            Route::view('decommissioned', 'equipments.equipments')->name('decommissioned.index');
+
+            Route::view('written-off', 'equipments.equipments')->name('written-off.index');
         });
-        
-        Route::group(['prefix' => 'info'] ,function () {
-    
+
+        Route::group(['prefix' => 'info'], function () {
+
             Route::view('employees', 'staff.employees')->name('employees.index');
-            
+
             Route::view('contractors', 'staff.company.contractors')->name('contractors.index');
-            
+
             Route::view('performers', 'staff.company.performers')->name('performers.index');
         });
-        
-        
-        Route::group(['prefix' => 'directory'] ,function () {
+
+
+        Route::group(['prefix' => 'directory'], function () {
 
             Route::view('types', 'directories.equipment.types')->name('types.index');
 
             Route::view('models', 'directories.equipment.models')->name('models.index');
-        
+
             Route::view('positions', 'directories.positions')->name('positions.index');
-        
+
             Route::view('users', 'directories.users')->name('users');
         });
-
     });
 });

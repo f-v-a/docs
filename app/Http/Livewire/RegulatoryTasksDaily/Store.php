@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\RegulatoryTasksDaily;
 
-use App\Models\Employee;
 use App\Models\Equipment;
 use App\Models\Executor;
 use App\Models\RegulatoryTask;
@@ -14,12 +13,11 @@ class Store extends ModalComponent
 {
     use Actions;
 
-    public $end_date, $start_date, $equipment_id, $executor_id, $employee_id, $periodicity, $description, $indefinitely = false;
+    public $end_date, $start_date, $equipment_id, $executor_id, $periodicity, $description, $indefinitely = false;
 
     public function resetInput()
     {
         $this->executor_id = null;
-        $this->employee_id = null;
         $this->equipment_id = null;
         $this->start_date = null;
         $this->end_date = null;
@@ -44,13 +42,12 @@ class Store extends ModalComponent
             $newRegular = RegulatoryTask::create([
                 'description' => $this->description,
                 'executor_id' => $this->executor_id,
-                'employee_id' => auth()->user()->id,
                 'equipment_id' => $this->equipment_id,
                 'status' => true,
                 'start_date' => $this->start_date,
                 'periodicity' => $this->periodicity,
-                'dates' => 'custom',
-                'end_date' => 'Бессрочно',
+                'mode' => 'день',
+                'end_date' => 'бессрочно',
             ]);
 
             if ($newRegular) {
@@ -65,12 +62,11 @@ class Store extends ModalComponent
             $newRegular = RegulatoryTask::create([
                 'description' => $this->description,
                 'executor_id' => $this->executor_id,
-                'employee_id' => auth()->user()->id,
                 'equipment_id' => $this->equipment_id,
                 'status' => true,
                 'start_date' => $this->start_date,
                 'periodicity' => $this->periodicity,
-                'dates' => 'custom',
+                'mode' => 'день',
                 'end_date' => $this->end_date,
             ]);
 

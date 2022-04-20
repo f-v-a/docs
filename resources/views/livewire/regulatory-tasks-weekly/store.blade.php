@@ -8,31 +8,31 @@
                 <ul class="flex flex-row justify-around flex-wrap pb-4">
                     <li>
                         <label for="monday" class="w-full text-gray-700 text-sm font-semibold pb-2">Пн</label>
-                        <x-checkbox id="monday" md wire:model.defer="monday" value="Пн" />
+                        <x-checkbox id="monday" md wire:model.defer="monday" value="1" />
                     </li>
                     <li>
                         <label for="tuesday" class="w-full text-gray-700 text-sm font-semibold pb-2">Вт</label>
-                        <x-checkbox id="tuesday" md wire:model.defer="tuesday" value="Вт" />
+                        <x-checkbox id="tuesday" md wire:model.defer="tuesday" value="2" />
                     </li>
                     <li>
                         <label for="wednesday" class="w-full text-gray-700 text-sm font-semibold pb-2">Ср</label>
-                        <x-checkbox id="wednesday" md wire:model.defer="wednesday" value="Ср" />
+                        <x-checkbox id="wednesday" md wire:model.defer="wednesday" value="3" />
                     </li>
                     <li>
                         <label for="thirsday" class="w-full text-gray-700 text-sm font-semibold pb-2">Чт</label>
-                        <x-checkbox id="thirsday" md wire:model.defer="thirsday" value="Чт" />
+                        <x-checkbox id="thirsday" md wire:model.defer="thirsday" value="4" />
                     </li>
                     <li>
                         <label for="friday" class="w-full text-gray-700 text-sm font-semibold pb-2">Пт</label>
-                        <x-checkbox id="friday" md wire:model.defer="friday" value="Пт" />
+                        <x-checkbox id="friday" md wire:model.defer="friday" value="5" />
                     </li>
                     <li>
                         <label for="saturday" class="w-full text-gray-700 text-sm font-semibold pb-2">Сб</label>
-                        <x-checkbox id="saturday" md wire:model.defer="saturday" value="Сб" />
+                        <x-checkbox id="saturday" md wire:model.defer="saturday" value="6" />
                     </li>
                     <li>
                         <label for="sunday" class="w-full text-gray-700 text-sm font-semibold pb-2">Вс</label>
-                        <x-checkbox id="sunday" md wire:model.defer="sunday" value="Вс" />
+                        <x-checkbox id="sunday" md wire:model.defer="sunday" value="7" />
                     </li>
                 </ul>
 
