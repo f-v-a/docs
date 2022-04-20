@@ -39,10 +39,12 @@ final class TypesTable extends PowerGridComponent
     protected function getListeners()
     {
         return array_merge(
-            parent::getListeners(), [
+            parent::getListeners(),
+            [
                 'destroy',
                 'refresh'
-            ]);
+            ]
+        );
     }
 
     /*
@@ -54,10 +56,10 @@ final class TypesTable extends PowerGridComponent
     */
 
     /**
-    * PowerGrid datasource.
-    *
-    * @return  \Illuminate\Database\Eloquent\Builder<\App\Models\User>|null
-    */
+     * PowerGrid datasource.
+     *
+     * @return  \Illuminate\Database\Eloquent\Builder<\App\Models\User>|null
+     */
     public function datasource(): ?Builder
     {
         return EquipmentType::query();
@@ -105,14 +107,14 @@ final class TypesTable extends PowerGridComponent
     |
     */
 
-     /**
+    /**
      * PowerGrid Columns.
      *
      * @return array<int, Column>
      */
     public function columns(): array
     {
-        if(auth()->user()->is_admin) {
+        if (auth()->user()->is_admin) {
             return [
                 Column::add()
                     ->title('ID')
@@ -125,8 +127,7 @@ final class TypesTable extends PowerGridComponent
                     ->title('Наименование')
                     ->field('name')
                     ->searchable()
-                    ->sortable()
-                    ->editOnClick(),
+                    ->sortable(),
             ];
         } else {
             return [
@@ -154,7 +155,7 @@ final class TypesTable extends PowerGridComponent
     |
     */
 
-     /**
+    /**
      * PowerGrid EquipmentType Action Buttons.
      *
      * @return array<int, \PowerComponents\LivewirePowerGrid\Button>
@@ -162,15 +163,15 @@ final class TypesTable extends PowerGridComponent
 
     public function actions(): array
     {
-        if(auth()->user()->is_admin) {
+        if (auth()->user()->is_admin) {
             return [
                 Button::add('edit')
-                    ->caption('✏️')
+                    ->caption('Редактировать')
                     ->class('bg-inherit')
                     ->openModal('types.update', ['id' => 'id']),
 
                 Button::add('destroy')
-                    ->caption('❌')
+                    ->caption('Удалить')
                     ->class('bg-inherit')
                     ->emit('destroy', ['id' => 'id'])
                     ->method('delete')
@@ -179,7 +180,7 @@ final class TypesTable extends PowerGridComponent
             return [];
         }
     }
-    
+
 
     /*
     |--------------------------------------------------------------------------
@@ -189,7 +190,7 @@ final class TypesTable extends PowerGridComponent
     |
     */
 
-     /**
+    /**
      * PowerGrid EquipmentType Action Rules.
      *
      * @return array<int, \PowerComponents\LivewirePowerGrid\Rules\RuleActions>
@@ -217,7 +218,7 @@ final class TypesTable extends PowerGridComponent
     |
     */
 
-     /**
+    /**
      * PowerGrid EquipmentType Update.
      *
      * @param array<string,string> $data
@@ -226,7 +227,7 @@ final class TypesTable extends PowerGridComponent
 
     public function header(): array
     {
-        if(auth()->user()->is_admin) {
+        if (auth()->user()->is_admin) {
             return [
                 Button::add('create')
                     ->caption(__('Добавить'))
@@ -238,50 +239,50 @@ final class TypesTable extends PowerGridComponent
         }
     }
 
-    public function refresh() {
+    public function refresh()
+    {
         $this->fillData();
     }
 
     public function destroy(array $data): void
     {
         $deleted = EquipmentType::findOrFail($data['id'])->delete();
-
-    }
-    
-    public function update(array $data ): bool
-    {
-        try {
-            $updated = EquipmentType::query()->findOrFail($data['id'])
-                ->update([
-                    $data['field'] => $data['value'],
-                ]);
-        } catch (QueryException $exception) {
-            $updated = false;
-        }
-
-        if($updated) {
-            $this->fillData();
-        }
-
-        return $updated;
     }
 
-    public function updateMessages(string $status = 'error', string $field = '_default_message'): string
-    {
-        $updateMessages = [
-            'success'   => [
-                '_default_message' => __('Данные успешно обновлены!'),
-                //'custom_field'   => __('Custom Field updated successfully!'),
-            ],
-            'error' => [
-                '_default_message' => __('Error updating the data.'),
-                //'custom_field'   => __('Error updating custom field.'),
-            ]
-        ];
+    // public function update(array $data ): bool
+    // {
+    //     try {
+    //         $updated = EquipmentType::query()->findOrFail($data['id'])
+    //             ->update([
+    //                 $data['field'] => $data['value'],
+    //             ]);
+    //     } catch (QueryException $exception) {
+    //         $updated = false;
+    //     }
 
-        $message = ($updateMessages[$status][$field] ?? $updateMessages[$status]['_default_message']);
+    //     if($updated) {
+    //         $this->fillData();
+    //     }
 
-        return (is_string($message)) ? $message : 'Error!';
-    }
-    
+    //     return $updated;
+    // }
+
+    // public function updateMessages(string $status = 'error', string $field = '_default_message'): string
+    // {
+    //     $updateMessages = [
+    //         'success'   => [
+    //             '_default_message' => __('Данные успешно обновлены!'),
+    //             //'custom_field'   => __('Custom Field updated successfully!'),
+    //         ],
+    //         'error' => [
+    //             '_default_message' => __('Error updating the data.'),
+    //             //'custom_field'   => __('Error updating custom field.'),
+    //         ]
+    //     ];
+
+    //     $message = ($updateMessages[$status][$field] ?? $updateMessages[$status]['_default_message']);
+
+    //     return (is_string($message)) ? $message : 'Error!';
+    // }
+
 }

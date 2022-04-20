@@ -136,8 +136,7 @@ final class ModelsTable extends PowerGridComponent
                     ->title('Наименование')
                     ->field('name')
                     ->sortable()
-                    ->searchable()
-                    ->editOnClick(),
+                    ->searchable(),
 
                 Column::add()
                     ->title('Тип оборудования')
@@ -277,34 +276,34 @@ final class ModelsTable extends PowerGridComponent
         $deleted = EquipmentModel::findOrFail($data['id'])->delete();
     }
 
-    public function update(array $data): bool
-    {
-        try {
-            $updated = EquipmentModel::query()->findOrFail($data['id'])
-                ->update([
-                    $data['field'] => $data['value'],
-                ]);
-        } catch (QueryException $exception) {
-            $updated = false;
-        }
-        return $updated;
-    }
+    // public function update(array $data): bool
+    // {
+    //     try {
+    //         $updated = EquipmentModel::query()->findOrFail($data['id'])
+    //             ->update([
+    //                 $data['field'] => $data['value'],
+    //             ]);
+    //     } catch (QueryException $exception) {
+    //         $updated = false;
+    //     }
+    //     return $updated;
+    // }
 
-    public function updateMessages(string $status = 'error', string $field = '_default_message'): string
-    {
-        $updateMessages = [
-            'success'   => [
-                '_default_message' => __('Data has been updated successfully!'),
-                //'custom_field'   => __('Custom Field updated successfully!'),
-            ],
-            'error' => [
-                '_default_message' => __('Error updating the data.'),
-                //'custom_field'   => __('Error updating custom field.'),
-            ]
-        ];
+    // public function updateMessages(string $status = 'error', string $field = '_default_message'): string
+    // {
+    //     $updateMessages = [
+    //         'success'   => [
+    //             '_default_message' => __('Data has been updated successfully!'),
+    //             //'custom_field'   => __('Custom Field updated successfully!'),
+    //         ],
+    //         'error' => [
+    //             '_default_message' => __('Error updating the data.'),
+    //             //'custom_field'   => __('Error updating custom field.'),
+    //         ]
+    //     ];
 
-        $message = ($updateMessages[$status][$field] ?? $updateMessages[$status]['_default_message']);
+    //     $message = ($updateMessages[$status][$field] ?? $updateMessages[$status]['_default_message']);
 
-        return (is_string($message)) ? $message : 'Error!';
-    }
+    //     return (is_string($message)) ? $message : 'Error!';
+    // }
 }

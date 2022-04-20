@@ -1,5 +1,5 @@
 <x-card title="Добавить данные">
-    <div class="form-group">
+    <div class="grid">
         <x-input label="Наименование" placeholder="Введите наименование" wire:model.defer="name"/>
     </div>
     <x-slot name="footer">
