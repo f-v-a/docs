@@ -166,12 +166,12 @@ final class TypesTable extends PowerGridComponent
         if (auth()->user()->is_admin) {
             return [
                 Button::add('edit')
-                    ->caption('Редактировать')
+                    ->caption('✏️')
                     ->class('bg-inherit')
                     ->openModal('types.update', ['id' => 'id']),
 
                 Button::add('destroy')
-                    ->caption('Удалить')
+                    ->caption('❌')
                     ->class('bg-inherit')
                     ->emit('destroy', ['id' => 'id'])
                     ->method('delete')
