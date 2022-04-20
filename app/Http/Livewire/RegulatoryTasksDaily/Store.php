@@ -16,7 +16,8 @@ class Store extends ModalComponent
 
     public $end_date, $start_date, $equipment_id, $executor_id, $employee_id, $periodicity, $description, $indefinitely = false;
 
-    public function resetInput() {
+    public function resetInput()
+    {
         $this->executor_id = null;
         $this->employee_id = null;
         $this->equipment_id = null;
@@ -28,7 +29,8 @@ class Store extends ModalComponent
         $this->indefinitely = null;
     }
 
-    public function store() {
+    public function store()
+    {
 
         $this->validate([
             'description' => 'required',
@@ -37,8 +39,8 @@ class Store extends ModalComponent
             'start_date' => 'required',
             'end_date' => 'nullable|after:start_date',
         ]);
-        
-        if($this->indefinitely) {
+
+        if ($this->indefinitely) {
             $newRegular = RegulatoryTask::create([
                 'description' => $this->description,
                 'executor_id' => $this->executor_id,
@@ -51,7 +53,7 @@ class Store extends ModalComponent
                 'end_date' => 'Бессрочно',
             ]);
 
-            if($newRegular) {
+            if ($newRegular) {
                 $this->forceClose()->closeModal();
                 $this->notification()->success(
                     $title = 'Успешно',
@@ -71,8 +73,8 @@ class Store extends ModalComponent
                 'dates' => 'custom',
                 'end_date' => $this->end_date,
             ]);
-            
-            if($newRegular) {
+
+            if ($newRegular) {
                 $this->forceClose()->closeModal();
                 $this->notification()->success(
                     $title = 'Успешно',
@@ -82,11 +84,13 @@ class Store extends ModalComponent
             }
         }
     }
-    
+
     public function render()
     {
-        if($this->equipment_id) {
-            $this->performers = Executor::where('contractor_id', Equipment::find($this->equipment_id)->contractor_id)->get();
+        if ($this->equipment_id) {
+            $this->performers = Executor::where('contractor_id', Equipment::find($this->equipment_id)->contractor_id)
+                ->orWhere('contractor_id', null)
+                ->get();
         }
         $this->equipments = Equipment::get();
 

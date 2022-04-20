@@ -41,9 +41,12 @@ final class ModelsTable extends PowerGridComponent
     protected function getListeners()
     {
         return array_merge(
-            parent::getListeners(), [
+            parent::getListeners(),
+            [
                 'destroy',
-            ]);
+                'refresh',
+            ]
+        );
     }
 
     /*
@@ -55,15 +58,15 @@ final class ModelsTable extends PowerGridComponent
     */
 
     /**
-    * PowerGrid datasource.
-    *
-    * @return  \Illuminate\Database\Eloquent\Builder<\App\Models\User>|null
-    */
+     * PowerGrid datasource.
+     *
+     * @return  \Illuminate\Database\Eloquent\Builder<\App\Models\User>|null
+     */
     public function datasource(): ?Builder
     {
         return EquipmentModel::query()
-        ->leftjoin('equipment_types', 'equipment_models.type_id', '=', 'equipment_types.id')
-        ->select('equipment_models.*', 'equipment_types.name as type'); 
+            ->leftjoin('equipment_types', 'equipment_models.type_id', '=', 'equipment_types.id')
+            ->select('equipment_models.*', 'equipment_types.name as type');
     }
 
     /*
@@ -114,14 +117,14 @@ final class ModelsTable extends PowerGridComponent
     |
     */
 
-     /**
+    /**
      * PowerGrid Columns.
      *
      * @return array<int, Column>
      */
     public function columns(): array
     {
-        if(auth()->user()->is_admin) {
+        if (auth()->user()->is_admin) {
             return [
                 Column::add()
                     ->title('ID')
@@ -181,19 +184,19 @@ final class ModelsTable extends PowerGridComponent
     |
     */
 
-     /**
+    /**
      * PowerGrid EquipmentModel Action Buttons.
      *
      * @return array<int, \PowerComponents\LivewirePowerGrid\Button>
      */
 
-    
+
     public function actions(): array
     {
-        if(auth()->user()->is_admin) {
+        if (auth()->user()->is_admin) {
             return [
                 Button::add('edit')
-                ->caption('✏️')
+                    ->caption('✏️')
                     ->class('bg-inherit')
                     ->openModal('models.update', ['id' => 'id']),
 
@@ -216,7 +219,7 @@ final class ModelsTable extends PowerGridComponent
     |
     */
 
-     /**
+    /**
      * PowerGrid EquipmentModel Action Rules.
      *
      * @return array<int, \PowerComponents\LivewirePowerGrid\Rules\RuleActions>
@@ -244,7 +247,7 @@ final class ModelsTable extends PowerGridComponent
     |
     */
 
-     /**
+    /**
      * PowerGrid EquipmentModel Update.
      *
      * @param array<string,string> $data
@@ -252,7 +255,7 @@ final class ModelsTable extends PowerGridComponent
 
     public function header(): array
     {
-        if(auth()->user()->is_admin) {
+        if (auth()->user()->is_admin) {
             return [
                 Button::add('create')
                     ->caption(__('Добавить'))
@@ -264,12 +267,17 @@ final class ModelsTable extends PowerGridComponent
         }
     }
 
+    function refresh()
+    {
+        $this->fillData();
+    }
+
     public function destroy(array $data): void
     {
         $deleted = EquipmentModel::findOrFail($data['id'])->delete();
     }
 
-    public function update(array $data ): bool
+    public function update(array $data): bool
     {
         try {
             $updated = EquipmentModel::query()->findOrFail($data['id'])

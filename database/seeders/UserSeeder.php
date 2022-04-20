@@ -74,6 +74,17 @@ class UserSeeder extends Seeder
             'role_id' => 3,
         ]);
 
+        DB::table('users')->insert([
+            'login' => 'master3',
+            'password' => Hash::make('master3'),
+            'name' => 'Филатов',
+            'surname' => 'Давид',
+            'patronymic' => 'Артемович',
+            'position_id' => 3,
+            'role_id' => 3,
+        ]);
+
+
         DB::table('employees')->insert([
             'user_id' => 1,
             'cabinet_number' => '',
@@ -121,6 +132,12 @@ class UserSeeder extends Seeder
             'user_id' => 5,
             'email' => 'performer2@gmail.com',
             'phone' => '89123334466',
+        ]);
+
+        DB::table('executors')->insert([
+            'user_id' => 6,
+            'email' => 'performer3@gmail.com',
+            'phone' => '89123334123',
         ]);
     }
 }

@@ -34,9 +34,17 @@ final class DecommissionedEquipmentTable extends PowerGridComponent
         $this->showCheckBox()
             ->showPerPage()
             ->showSearchInput()
+            ->showToggleColumns()
             ->showExportOption('download', ['excel', 'csv']);
     }
 
+    protected function getListeners()
+    {
+        return array_merge(
+            parent::getListeners(), [
+                'returnEquipment',
+            ]);
+    }
     /*
     |--------------------------------------------------------------------------
     |  Datasource
@@ -124,7 +132,9 @@ final class DecommissionedEquipmentTable extends PowerGridComponent
             Column::add()
             ->title('ID')
             ->field('id')
-            ->makeInputRange(),
+            ->makeInputRange('equipment.id')
+            ->searchable()
+            ->hidden(true, false),
 
         Column::add()
             ->title('Наименование')
@@ -173,6 +183,36 @@ final class DecommissionedEquipmentTable extends PowerGridComponent
         ];
     }
     */
+
+
+    public function header(): array
+    {
+        if(auth()->user()->is_admin) {
+            return [
+                Button::add('return')
+                    ->caption(__('Ввести в эксплуатацию'))
+                    ->class('cursor-pointer block bg-indigo-500 text-white border border-gray-300 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-600 dark:border-gray-500 dark:bg-gray-500 2xl:dark:placeholder-gray-300 dark:text-gray-200 dark:text-gray-300')
+                    ->emit('returnEquipment', ['id' => 'id']),
+            ];
+        } else {
+            return [];
+        }
+    }
+
+    public function returnEquipment(): bool
+    {
+        try {
+            foreach($this->checkboxValues as $selectedCheckbox) {
+                $updated = Equipment::query()->find($selectedCheckbox)
+                ->update([
+                    'status' => 'В работе',
+                ]);
+            }
+        } catch (QueryException $exception) {
+            $updated = false;
+        }
+        return $updated;
+    }
 
     /*
     |--------------------------------------------------------------------------

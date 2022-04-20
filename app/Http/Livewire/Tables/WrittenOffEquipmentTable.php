@@ -28,13 +28,16 @@ final class WrittenOffEquipmentTable extends PowerGridComponent
     | Setup Table's general features
     |
     */
+
     public function setUp(): void
     {
         $this->showCheckBox()
             ->showPerPage()
             ->showSearchInput()
+            ->showToggleColumns()
             ->showExportOption('download', ['excel', 'csv']);
     }
+
 
     /*
     |--------------------------------------------------------------------------
@@ -45,10 +48,10 @@ final class WrittenOffEquipmentTable extends PowerGridComponent
     */
 
     /**
-    * PowerGrid datasource.
-    *
-    * @return  \Illuminate\Database\Eloquent\Builder<\App\Models\User>|null
-    */
+     * PowerGrid datasource.
+     *
+     * @return  \Illuminate\Database\Eloquent\Builder<\App\Models\User>|null
+     */
     public function datasource(): ?Builder
     {
         return Equipment::where('status', '=', 'Списано');
@@ -87,13 +90,13 @@ final class WrittenOffEquipmentTable extends PowerGridComponent
             ->addColumn('name')
             ->addColumn('description')
             ->addColumn('cabinet_number')
-            ->addColumn('manufacture_date_formatted', function(Equipment $model) { 
+            ->addColumn('manufacture_date_formatted', function (Equipment $model) {
                 return Carbon::parse($model->manufacture_date)->format('d/m/Y');
             })
-            ->addColumn('buy_date_formatted', function(Equipment $model) { 
+            ->addColumn('buy_date_formatted', function (Equipment $model) {
                 return Carbon::parse($model->buy_date)->format('d/m/Y');
             })
-            ->addColumn('commissioning_date_formatted', function(Equipment $model) { 
+            ->addColumn('commissioning_date_formatted', function (Equipment $model) {
                 return Carbon::parse($model->commissioning_date)->format('d/m/Y');
             })
             ->addColumn('warranty_period')
@@ -112,7 +115,7 @@ final class WrittenOffEquipmentTable extends PowerGridComponent
     |
     */
 
-     /**
+    /**
      * PowerGrid Columns.
      *
      * @return array<int, Column>
@@ -121,24 +124,25 @@ final class WrittenOffEquipmentTable extends PowerGridComponent
     {
         return [
             Column::add()
-            ->title('ID')
-            ->field('id')
-            ->makeInputRange(),
+                ->title('ID')
+                ->field('id')
+                ->makeInputRange()
+                ->searchable()
+                ->hidden(true, false),
 
-        Column::add()
-            ->title('Наименование')
-            ->field('name')
-            ->sortable()
-            ->searchable(),
+            Column::add()
+                ->title('Наименование')
+                ->field('name')
+                ->sortable()
+                ->searchable(),
 
-        Column::add()
-            ->title('Статус')
-            ->field('status')
-            ->sortable()
-            ->searchable(),
+            Column::add()
+                ->title('Статус')
+                ->field('status')
+                ->sortable()
+                ->searchable(),
 
-        ]
-;
+        ];
     }
 
     /*
@@ -149,7 +153,7 @@ final class WrittenOffEquipmentTable extends PowerGridComponent
     |
     */
 
-     /**
+    /**
      * PowerGrid Equipment Action Buttons.
      *
      * @return array<int, \PowerComponents\LivewirePowerGrid\Button>
@@ -181,7 +185,7 @@ final class WrittenOffEquipmentTable extends PowerGridComponent
     |
     */
 
-     /**
+    /**
      * PowerGrid Equipment Action Rules.
      *
      * @return array<int, \PowerComponents\LivewirePowerGrid\Rules\RuleActions>
@@ -209,7 +213,7 @@ final class WrittenOffEquipmentTable extends PowerGridComponent
     |
     */
 
-     /**
+    /**
      * PowerGrid Equipment Update.
      *
      * @param array<string,string> $data
