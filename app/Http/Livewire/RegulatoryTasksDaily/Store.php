@@ -5,7 +5,6 @@ namespace App\Http\Livewire\RegulatoryTasksDaily;
 use App\Models\Equipment;
 use App\Models\Executor;
 use App\Models\RegulatoryTask;
-use Carbon\Carbon;
 use LivewireUI\Modal\ModalComponent;
 use WireUi\Traits\Actions;
 
@@ -29,7 +28,6 @@ class Store extends ModalComponent
 
     public function store()
     {
-
         $this->validate([
             'description' => 'required',
             'executor_id' => 'required',
@@ -43,11 +41,10 @@ class Store extends ModalComponent
                 'description' => $this->description,
                 'executor_id' => $this->executor_id,
                 'equipment_id' => $this->equipment_id,
-                'status' => true,
+                'status' => false,
                 'start_date' => $this->start_date,
                 'periodicity' => $this->periodicity,
-                'mode' => 'день',
-                'end_date' => 'бессрочно',
+                'mode' => '1',
             ]);
 
             if ($newRegular) {
@@ -63,10 +60,10 @@ class Store extends ModalComponent
                 'description' => $this->description,
                 'executor_id' => $this->executor_id,
                 'equipment_id' => $this->equipment_id,
-                'status' => true,
+                'status' => false,
                 'start_date' => $this->start_date,
                 'periodicity' => $this->periodicity,
-                'mode' => 'день',
+                'mode' => '1',
                 'end_date' => $this->end_date,
             ]);
 

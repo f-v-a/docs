@@ -23,7 +23,7 @@ class CreateRegulatoryTasksTable extends Migration
             $table->string('dates')->nullable();
             $table->string('periodicity', 40)->nullable();
             $table->string('mode', 10);
-            $table->string('end_date', 40)->nullable();
+            $table->date('end_date')->nullable();
         });
     }
 

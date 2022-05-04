@@ -19,15 +19,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('/', function () {
-        return redirect()->route('incidents.index');
-    });
-
+//    Route::get('/', function () {
+//        return redirect()->route('incidents.index');
+//    });
     Route::group(['prefix' => 'inbox'], function () {
 
         Route::view('incidents', 'incidents.incidents')->name('incidents.index');
 
-        Route::get('regulatory-tasks', [RegulatoryTaskController::class, 'index'])->name('regulatory-tasks.index')->middleware('is_admin');
+        Route::resource('regulatory-tasks', RegulatoryTaskController::class)->middleware('is_admin');
     });
 
     Route::group(['prefix' => 'completed'], function () {
@@ -67,4 +66,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::view('users', 'directories.users')->name('users');
         });
     });
+});
+
+Route::fallback(function () {
+    return redirect()->route('incidents.index');
 });

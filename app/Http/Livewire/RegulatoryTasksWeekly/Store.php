@@ -13,7 +13,7 @@ class Store extends ModalComponent
 {
     use Actions;
 
-    public $end_date, $start_date, $equipment_id, $executor_id, $periodicity, $description, $indefinitely = false,
+    public $end_date, $start_date, $equipment_id, $executor_id, $periodicity, $description, $indefinitely = false, $mode,
         $monday, $tuesday, $wednesday, $thirsday, $friday, $saturday, $sunday, $inputArr, $outputArr = [];
 
     private function resetInput()
@@ -63,9 +63,10 @@ class Store extends ModalComponent
                 'equipment_id' => $this->equipment_id,
                 'status' => true,
                 'start_date' => $this->start_date,
-                'periodicity' => $this->periodicity,
+                'periodicity' => $this->periodicity*7,
                 'dates' => $this->check(),
                 'end_date' => 'Бессрочно',
+                'mode' => '2'
             ]);
 
             if ($newRegular) {
@@ -83,9 +84,10 @@ class Store extends ModalComponent
                 'equipment_id' => $this->equipment_id,
                 'status' => true,
                 'start_date' => $this->start_date,
-                'periodicity' => $this->periodicity,
+                'periodicity' => $this->periodicity*7,
                 'dates' => $this->check(),
                 'end_date' => $this->end_date,
+                'mode' => 'неделя',
             ]);
 
             if ($newRegular) {

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class RegulatoryTask extends Model
 {
@@ -12,6 +13,8 @@ class RegulatoryTask extends Model
     public $timestamps = false;
 
     protected $fillable = ['description', 'status', 'start_date', 'dates', 'periodicity', 'end_date', 'executor_id', 'equipment_id', 'mode'];
+
+    protected $dates = ['start_date', 'end_date'];
 
     public function performer()
     {
@@ -23,5 +26,10 @@ class RegulatoryTask extends Model
     {
 
         return $this->belongsTo(Equipment::class, 'equipment_id');
+    }
+
+    public function getModifyDescriptionAttribute()
+    {
+        return Str::substr($this->description, 0, 235);
     }
 }

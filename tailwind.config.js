@@ -12,7 +12,7 @@ module.exports = {
     './vendor/wireui/wireui/resources/**/*.blade.php',
     './vendor/wireui/wireui/ts/**/*.ts',
     './vendor/wireui/wireui/src/View/**/*.php',
-    './vendor/wire-elements/modal/resources/views/*.blade.php',
+    './vendor/wire-elements/modal/resources/views/*.blade.php'
   ],
   options: {
     safelist: [
@@ -60,15 +60,16 @@ module.exports = {
         negative: colors.red,
         warning: colors.amber,
         info: colors.blue,
-      },
+
+      }
     }
   },
   plugins: [
     require('@tailwindcss/aspect-ratio'),
     require('@tailwindcss/forms')({
-      strategy: 'class',
+      strategy: 'class'
     }),
-    require('@tailwindcss/typography'),
+    require('@tailwindcss/typography')
 
   ]
 }

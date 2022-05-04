@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/6.5.95/css/materialdesignicons.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="{{ asset('dist/app.css') }}">
     @livewireStyles
     @powerGridStyles
@@ -42,10 +42,10 @@
                                     <span>Создать</span>
                                 </div>
                                 <svg x-show="open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
-                                <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>    
+                                <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </div>
                             <div x-show="open" class="text-base border-l-2 border-gray-800 mx-6 my-2.5 px-2.5 flex flex-col gap-y-1">
-                                <a href="#" onclick="Livewire.emit('openModal', 'incidents.store')" 
+                                <a href="#" onclick="Livewire.emit('openModal', 'incidents.store')"
                                 class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
                                     Инцидент
                                 </a>
@@ -67,20 +67,20 @@
                                     <div @click="openRegular = !openRegular" class="flex items-center justify-between hover:bg-gray-800 hover:text-white cursor-pointer py-2.5 px-4 rounded">
                                         <span>Регламентная задача</span>
                                     </div>
-                                    
+
                                     <div x-show="openRegular" class="text-base border-l-2 border-gray-800 ml-6 my-2.5 px-2 flex flex-col gap-y-1">
                                         <a href="#" onclick="Livewire.emit('openModal', 'regulatory-tasks-daily.store')"
                                         class="block py-2 px-2 hover:bg-gray-800 hover:text-white rounded">
                                             По дням
                                         </a>
-                                        <a href="#" onclick="Livewire.emit('openModal', 'regulatory-tasks-weekly.store')"
-                                        class="block py-2 px-2 hover:bg-gray-800 hover:text-white rounded">
-                                            По неделям
-                                        </a>
-                                        <a href="#" onclick="Livewire.emit('openModal', 'regulatory-tasks-monthly.store')"
-                                        class="block py-2 px-2 hover:bg-gray-800 hover:text-white rounded">
-                                            По месяцам
-                                        </a>
+{{--                                        <a href="#" onclick="Livewire.emit('openModal', 'regulatory-tasks-weekly.store')"--}}
+{{--                                        class="block py-2 px-2 hover:bg-gray-800 hover:text-white rounded">--}}
+{{--                                            По неделям--}}
+{{--                                        </a>--}}
+{{--                                        <a href="#" onclick="Livewire.emit('openModal', 'regulatory-tasks-monthly.store')"--}}
+{{--                                        class="block py-2 px-2 hover:bg-gray-800 hover:text-white rounded">--}}
+{{--                                            По месяцам--}}
+{{--                                        </a>--}}
                                     </div>
                                 @endif
                             </div>
@@ -93,7 +93,7 @@
                                     <span>Инциденты</span>
                                 </div>
                                 <svg x-show="open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
-                                <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>    
+                                <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </div>
                             <div x-show="open" class="text-base border-l-2 border-gray-800 mx-6 my-2.5 px-2.5 flex flex-col gap-y-1">
                                 <a href="{{ route('incidents.index') }}" class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
@@ -105,7 +105,7 @@
                                 @if (auth()->user()->is_admin || auth()->user()->is_chief)
                                 <a href="{{ route('regulatory-tasks.index') }}" class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
                                     Регламентные задачи
-                                </a>  
+                                </a>
                                 @endif
                             </div>
                         </div>
@@ -117,7 +117,7 @@
                                         <span>Оборудование</span>
                                     </div>
                                     <svg x-show="open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
-                                    <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>    
+                                    <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                 </div>
                                 <div x-show="open" class="text-base border-l-2 border-gray-800 mx-6 my-2.5 px-2.5 flex flex-col gap-y-1">
                                     <a href="{{ route('active.index') }}" class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
@@ -138,7 +138,7 @@
                                         <span>Персонал</span>
                                     </div>
                                     <svg x-show="open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
-                                    <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>    
+                                    <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                 </div>
                                 <div x-show="open" class="text-base border-l-2 border-gray-800 mx-6 my-2.5 px-2.5 flex flex-col gap-y-1">
                                     <a href="{{ route('employees.index') }}" class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
@@ -156,7 +156,7 @@
                                         <span>Справочники</span>
                                     </div>
                                     <svg x-show="open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
-                                    <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>    
+                                    <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                 </div>
                                 <div x-show="open" class="text-base border-l-2 border-gray-800 mx-6 my-2.5 px-2.5 flex flex-col gap-y-1">
                                     <a href="{{ route('types.index') }}" class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
@@ -188,15 +188,15 @@
                     <div class="flex items-center space-x-2">
                         <!-- AVATAR IMAGE BY FIRST LETTER OF NAME -->
                         {{-- <img src="https://ui-avatars.com/api/?name=Habib+Mhamadi&size=128&background=ff4433&color=fff" class="w-7 w-7 rounded-full" alt="Profile"> --}}
-                        <span class = "text-lg">    
-                            {{ auth()->user()->name ?? '' }} 
-                            {{ auth()->user()->patronymic ?? '' }} 
+                        <span class = "text-lg">
+                            {{ auth()->user()->name ?? '' }}
+                            {{ auth()->user()->patronymic ?? '' }}
                         </span>
                     </div>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button class="hover:bg-gray-800 hover:text-white p-2 rounded">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>            
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                         </button>
                     </form>
                 </div>
@@ -226,8 +226,8 @@
                 </div>
 
                 <!-- TABLE -->
-                <div class="bg-white my-10">
-                    <div class="px-4 py-4">
+                <div class="my-9 @if(!Route::currentRouteName('regulatory.index')) bg-white @endif">
+                    <div class="py-4">
                         @yield('content')
                     </div>
                 </div>
